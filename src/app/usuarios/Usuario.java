@@ -12,6 +12,19 @@ public class Usuario {
         this.telefone = telefone;
 
     };
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     public void login(){
         System.out.println("Insira o cpf:");
 
