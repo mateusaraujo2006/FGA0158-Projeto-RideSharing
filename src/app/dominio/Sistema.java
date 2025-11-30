@@ -195,8 +195,25 @@ public class Sistema {
                 System.out.print("Digite a placa do veículo: ");
                 String placa = scanner.next();
                 Veiculo veiculo = new Veiculo(placa, modelo, cor, ano);
-
-                usuarios.add(new Motorista(nome, email, senha, cpf, telefone, veiculo, cnh));
+                int disponivel;
+                System.out.println("O motorista pode começar a trabalhar agora?");
+                System.out.println("1. Sim");
+                System.out.println("2. Não");
+                System.out.print("Escolha uma opção: ");
+                disponivel = scanner.nextInt();
+                StatusDisponibilidade disponibilidade;
+                switch (disponivel) {
+                    case 1:
+                        disponibilidade = StatusDisponibilidade.ONLINE;
+                        break;
+                    case 2:
+                        disponibilidade = StatusDisponibilidade.OFFLINE;
+                        break;
+                    default:
+                        System.out.println("Opção inválida.");
+                        return;
+                }
+                usuarios.add(new Motorista(nome, email, senha, cpf, telefone, veiculo, cnh, disponibilidade));
                 break;
         }
 
