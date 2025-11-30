@@ -1,6 +1,9 @@
 package app.dominio;
 
-import app.usuarios.Usuario;
+import app.usuarios.*;
+import app.excecoes.*;
+import app.veiculo.*;
+import app.pagamento.*;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -15,7 +18,6 @@ public class Sistema {
         int opcao;
 
         do {
-            System.out.println("Menu:");
             System.out.println("1. Cadastrar Usuário");
             System.out.println("2. Login");
             System.out.println("3. Sair");
@@ -134,8 +136,69 @@ public class Sistema {
                 senhaDeConfimarcao = scanner.next();
             }while (!senha.equals(senhaDeConfimarcao));
         }
-        Usuario usuario = new Usuario(nome, email, senha, cpf, telefone);
-        usuarios.add(usuario);
+        int tipoDeUsuario;
+        System.out.println("1. Passageiro");
+        System.out.println("2. Motorista");
+        System.out.print(" Digite o tipo de usuário: ");
+        tipoDeUsuario = scanner.nextInt();
+        
+        switch (tipoDeUsuario) {
+            
+            case 1:
+                FormaDePagamento pagamento = null;
+                System.out.println("1. Credito");
+                System.out.println("2. Dinheiro");
+                System.out.println("3. Pix");
+                System.out.println("4. Debito");
+                System.out.print("Escolha a forma de pagamento que irá usar: ");
+                int formaDePagamento = scanner.nextInt();
+                switch (formaDePagamento) {
+                    case 1:
+                        System.out.print("Digite o limite de crédito: ");
+                        double limite = scanner.nextDouble();
+                        pagamento = new Credito(limite);
+                        break;
+                    case 2:
+                        System.out.print("Digite o dinheiro disponível: ");
+                        double dinheiro = scanner.nextDouble();
+                        pagamento = new Dinheiro(dinheiro);
+                        break;
+                    case 3:
+                        System.out.print("Digite a chave pix: ");
+                        double valorNaConta = scanner.nextDouble();
+                        pagamento = new Pix(valorNaConta);
+                        break;
+                    case 4:
+                        System.out.print("Digite o saldo em conta: ");
+                        double saldo = scanner.nextDouble();
+                        pagamento = new Debito(saldo);
+                        break;
+                    default:
+                        System.out.println("Opção de pagamento inválida.");
+                        break;
+                }
+                usuarios.add(new Passageiro(nome, email, senha, cpf, telefone, pagamento));
+                break;
+            case 2:
+                System.out.print("Digite o número da CNH: ");
+                String numeroCnh = scanner.next();
+                System.out.print("Digite a categoria da CNH: ");
+                String categoriaCnh = scanner.next();
+                Cnh cnh = new Cnh(numeroCnh, categoriaCnh);
+
+                System.out.print("Digite a cor do veículo: ");
+                String cor = scanner.next();
+                System.out.print("Digite o modelo do veículo: ");
+                String modelo = scanner.next();
+                System.out.print("Digite o ano do veículo: ");
+                int ano = scanner.nextInt();
+                System.out.print("Digite a placa do veículo: ");
+                String placa = scanner.next();
+                Veiculo veiculo = new Veiculo(placa, modelo, cor, ano);
+
+                usuarios.add(new Motorista(nome, email, senha, cpf, telefone, veiculo, cnh));
+                break;
+        }
 
         System.out.println("Usuário cadastrado com sucesso!");
     }
