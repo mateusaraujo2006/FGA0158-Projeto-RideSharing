@@ -1,15 +1,16 @@
 package app.usuarios;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Avaliacao {
     private int nota;
     private String comentario;
-    private Date data;
+    private String data;
 
-    public Avaliacao(int nota, String comentario, Date data) {
+    public Avaliacao(int nota, String comentario) {
         this.nota = nota;
         this.comentario = comentario;
-        this.data = new Date();
+        this.data = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public int getNota() {
@@ -20,7 +21,7 @@ public class Avaliacao {
         return comentario;
     }
 
-    public Date getData() {
+    public String getData() {
         return data;
     }
 }
