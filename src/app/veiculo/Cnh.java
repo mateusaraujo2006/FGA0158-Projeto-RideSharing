@@ -1,30 +1,29 @@
 package app.veiculo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Cnh {
-    private final String Id;
-    private final String Validade;
-    private final String DatadeHoje;
+    private final String id;
+    private final LocalDateTime validade;
+    private final LocalDateTime dataDeHoje = LocalDateTime.now();
     
     public Cnh(String id, String validade) {
-        this.Id = id;
-        this.Validade = validade;
-        this.DatadeHoje = DatadeHoje;
+        this.id = id;
+        this.validade = LocalDateTime.parse(validade, DateTimeFormatter.ofPattern("MM/yyyy"));
         
     }
     public Boolean VerificarValidadeCnh () {
-        if (this.Id == null || this.Id.trim().isEmpty()) {
+        if (this.id == null || this.id.trim().isEmpty()) {
             return false;
         }
-        if (this.Validade == null || this.Validade.trim().isEmpty()) {
+        if (this.validade == null) {
             return false;
         }
-        if (this.Id.length() < 9 || this.Id.length() > 9) {
+        if ((validade.getYear() >= dataDeHoje.getYear()) && (validade.getMonthValue() >= dataDeHoje.getMonthValue())) {
             return false;
         }
-        if (validade < DatadeHoje){
-            return false;
-        }
-        else return true;
+        return this.id.length() == 9;
 
     }
 
