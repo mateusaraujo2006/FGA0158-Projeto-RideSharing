@@ -20,7 +20,7 @@ public class Cnh {
         if (this.validade == null) {
             return false;
         }
-        if ((validade.getYear() >= dataDeHoje.getYear()) && (validade.getMonthValue() >= dataDeHoje.getMonthValue())) {
+        if ((dataDeHoje.getYear() >= validade.getYear()) && (dataDeHoje.getMonthValue() >= validade.getMonthValue())) {
             return false;
         }
         return this.id.length() == 9;
