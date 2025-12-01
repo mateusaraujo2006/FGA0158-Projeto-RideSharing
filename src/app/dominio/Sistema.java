@@ -26,7 +26,7 @@ public class Sistema {
                     cadastrarUsuario();
                     break;
                 case 2:
-                    // Lógica de login
+                    Usuario.verificadorDeSeguranca().login();
                     break;
                 case 3:
                     System.out.println("Saindo do sistema...");
@@ -51,10 +51,6 @@ public class Sistema {
         Random random = new Random();
         int index = random.nextInt(motoristasOnline.size());
         return motoristasOnline.get(index);
-    }
-
-    public static void iniciarSistema(){
-
     }
 
     public static void validadorDeCpf(String cpf) {
@@ -228,32 +224,6 @@ public class Sistema {
 
         System.out.println("Usuário cadastrado com sucesso!");
     }
-    public static void logarEmUsuario() {
-        Usuario usuarioLogado = null;
-        System.out.print("Digite o CPF: ");
-        String cpf = scanner.next();
-        for(Usuario usuario : usuarios) {
-            if(usuario.getCpf().equals(cpf)) {
-                usuarioLogado = usuario;
-                break;
-            }
-        }
-        if(usuarioLogado == null) {
-            System.out.println("Usuário não encontrado.");
-            return;
-        }
-        System.out.print("Digite a senha: ");
-        String senha = scanner.next();
-        if(!usuarioLogado.getSenha().equals(senha)) {
-            do {
-                System.out.println("Senha incorreta.");
-                System.out.print("Digite a senha: ");
-                senha = scanner.next();
-            }while (!usuarioLogado.getSenha().equals(senha));
-
-        }
-        usuarioLogado.login();
-    }
 
     public static CadastroCartao cadastrarCartao() {
         System.out.print("Digite o numero do cartão: ");
@@ -265,5 +235,13 @@ public class Sistema {
         System.out.print("Digite o código de segurança: ");
         String codigoSeguranca = scanner.next();
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
+    }
+
+    public static ArrayList<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public static ArrayList<Corrida> getCorridas() {
+        return corridas;
     }
 }
