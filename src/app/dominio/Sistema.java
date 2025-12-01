@@ -5,9 +5,8 @@ import app.excecoes.*;
 import app.veiculo.*;
 import app.pagamento.*;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Sistema {
     private static ArrayList<Usuario> usuarios = new ArrayList<>();
@@ -40,6 +39,20 @@ public class Sistema {
         } while (opcao != 3);
 
         scanner.close();
+    }
+
+    public static Motorista procurarMotorista() {
+        List<Motorista> motoristasOnline = usuarios.stream()
+                .filter(u -> u instanceof Motorista)
+                .map(u -> (Motorista) u)
+                .filter(m -> m.getStatusDisponibilidade() == StatusDisponibilidade.ONLINE)
+                .toList();
+        if (motoristasOnline.isEmpty()) {
+            return null;
+        }
+        Random random = new Random();
+        int index = random.nextInt(motoristasOnline.size());
+        return motoristasOnline.get(index);
     }
 
     public static void iniciarSistema(){
