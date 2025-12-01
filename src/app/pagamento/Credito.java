@@ -1,10 +1,10 @@
 package app.pagamento;
 
-public class Debito implements FormaDePagamento {
+public class Credito implements FormaDePagamento {
     private CadastroCartao Cartao;
     private double Limite;
 
-    public PagamentoDebito(CadastroCartao cartao) {
+    public Credito(CadastroCartao cartao) {
         this.Cartao = cartao;
         this.Limite = cartao.getLimite();
     }
@@ -13,10 +13,12 @@ public class Debito implements FormaDePagamento {
     public boolean processarPagamento(double valorDebitado) {
         if (valorDebitado <= Limite) {
             Limite -= valorDebitado;
-            return true "Pagamento realizado com sucesso";
+            System.out.println("Pagamento realizado com sucesso");
+            return true;
         }
         else {
-            return false "Pagamento recusado: saldo insuficiente.";
+            System.out.println("Pagamento recusado: saldo insuficiente.");
+            return false;
         }
     }
 }

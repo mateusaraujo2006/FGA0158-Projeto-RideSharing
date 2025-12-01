@@ -33,9 +33,11 @@ public class Pix implements FormaDePagamento {
         if (valorDebitado <= DinheironaConta) {
             DinheironaConta -= valorDebitado;
             pagamentoConfirmado = true;
-            return true "Pagamento realizado com sucesso";
+            System.out.println("Pagamento realizado com sucesso");
+            return true;
         }
         pagamentoConfirmado = false;
-        return false "Pagamento recusado: saldo insuficiente.";
+        System.out.println("Pagamento recusado: saldo insuficiente.");
+        return false;
     }
 }

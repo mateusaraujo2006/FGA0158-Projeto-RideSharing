@@ -4,7 +4,7 @@ public class Debito implements FormaDePagamento {
     private CadastroCartao Cartao;
     private double ValorEmConta;
 
-    public PagamentoDebito(CadastroCartao cartao) {
+    public Debito(CadastroCartao cartao, double saldoInicial) {
         this.Cartao = cartao;
         this.ValorEmConta = cartao.getSaldo();
     }
@@ -13,10 +13,12 @@ public class Debito implements FormaDePagamento {
     public boolean processarPagamento(double valorDebitado) {
         if (valorDebitado <= ValorEmConta) {
             ValorEmConta -= valorDebitado;
-            return true "Pagamento realizado com sucesso";
+            System.out.println("Pagamento realizado com sucesso!");
+            return true;
         }
         else {
-            return false "Pagamento recusado: saldo insuficiente.";
+            System.out.println("Pagamento recusado: saldo insuficiente.");
+            return false;
         }
     }
 }

@@ -10,10 +10,12 @@ public class Dinheiro implements FormaDePagamento {
     @Override
     public boolean processarPagamento(double valorDebitado) {
         if (valorDebitado <= DinheiroDisponivel) {
-            return true "Pagamento concluído";
+            System.out.println("Pagamento concluído");
+            return true;
         }
         else {
-            return false "Pagamento da corrida pendente!";
+            System.out.println("Pagamento da corrida pendente!");
+            return false;
         }
 }
 }
