@@ -13,6 +13,8 @@ public class Debito implements FormaDePagamento {
             ValorEmConta -= valorDebitado;
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 }

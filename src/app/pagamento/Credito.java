@@ -2,7 +2,6 @@ package app.pagamento;
 
 public class Credito implements FormaDePagamento {
     private double limite;
-
     public Credito(double limite) {
         this.limite = limite;
     }
