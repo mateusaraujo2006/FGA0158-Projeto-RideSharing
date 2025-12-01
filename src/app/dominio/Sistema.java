@@ -1,12 +1,10 @@
 package app.dominio;
 
 import app.usuarios.*;
-import app.excecoes.*;
 import app.veiculo.*;
 import app.pagamento.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Sistema {
     private static ArrayList<Usuario> usuarios = new ArrayList<>();
@@ -167,9 +165,7 @@ public class Sistema {
                 int formaDePagamento = scanner.nextInt();
                 switch (formaDePagamento) {
                     case 1:
-                        System.out.print("Digite o limite de crédito: ");
-                        double limite = scanner.nextDouble();
-                        pagamento = new Credito(limite);
+                        pagamento = new Credito(cadastrarCartao());
                         break;
                     case 2:
                         System.out.print("Digite o dinheiro disponível: ");
@@ -182,9 +178,9 @@ public class Sistema {
                         pagamento = new Pix(valorNaConta);
                         break;
                     case 4:
-                        System.out.print("Digite o saldo em conta: ");
-                        double saldo = scanner.nextDouble();
-                        pagamento = new Debito(saldo);
+                        System.out.println("Digite o seu saldo inicial: ");
+                        double saldoInicial = scanner.nextDouble();
+                        pagamento = new Debito(cadastrarCartao(), saldoInicial);
                         break;
                     default:
                         System.out.println("Opção de pagamento inválida.");
@@ -257,5 +253,17 @@ public class Sistema {
 
         }
         usuarioLogado.login();
+    }
+
+    public static CadastroCartao cadastrarCartao() {
+        System.out.print("Digite o numero do cartão: ");
+        String numeroCartao = scanner.next();
+        System.out.print("Digite o nome do Titular: ");
+        String nomeTitular = scanner.next();
+        System.out.print("Digite a data de validade: ");
+        String dataDeValidade = scanner.next();
+        System.out.print("Digite o código de segurança: ");
+        String codigoSeguranca = scanner.next();
+        return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
 }
