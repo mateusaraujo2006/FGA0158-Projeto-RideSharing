@@ -12,5 +12,7 @@ public class Motorista extends Usuario {
         this.statusDisponibilidade = statusDisponibilidade;
     }
 
-
+    public StatusDisponibilidade getStatusDisponibilidade() {
+        return statusDisponibilidade;
+    }
 }
