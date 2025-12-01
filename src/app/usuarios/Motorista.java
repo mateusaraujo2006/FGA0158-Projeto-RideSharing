@@ -15,4 +15,9 @@ public class Motorista extends Usuario {
     public StatusDisponibilidade getStatusDisponibilidade() {
         return statusDisponibilidade;
     }
+
+    @Override
+    public void login() {
+
+    }
 }
