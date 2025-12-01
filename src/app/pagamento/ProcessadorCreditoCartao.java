@@ -1,10 +1,10 @@
 package app.pagamento;
 
 public class ProcessadorCreditoCartao {
-    private Debito credito;
+    private Credito credito;
 
     public ProcessadorCreditoCartao(CadastroCartao cartao, double saldoInicial) {
-        this.credito = new Debito(cartao, saldoInicial);
+        this.credito = new Credito(cartao, saldoInicial);
     }
 
     public boolean tentarPagar(double valor) {
