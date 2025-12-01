@@ -1,6 +1,6 @@
 package app.dominio;
 
-public class CategoriaComum extends Categoria {
+public class CategoriaComum implements Categoria {
     public static final double TARIFA_BASE = 5.00;
     public static final double MULTIPLICADOR = 1.00;
 

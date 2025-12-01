@@ -1,6 +1,6 @@
 package app.dominio;
 
-public class CategoriaLuxo extends Categoria {
+public class CategoriaLuxo implements Categoria {
     public static final double TARIFA_BASE = 9.00;
     public static final double MULTIPLICADOR = 2.20;
 

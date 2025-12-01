@@ -1,6 +1,6 @@
 package app.dominio;
 
-public abstract class Categoria {
+public interface Categoria {
 
-    public abstract double calcularPreco(double distancia);
+    double calcularPreco(double distancia);
 }
