@@ -1,7 +1,6 @@
 package app.pagamento;
 
 public class Dinheiro implements FormaDePagamento {
-    private boolean CorridaPaga = false;
     private double DinheiroDisponivel;
 
     public Dinheiro(double dinheiroDisponivel) {
@@ -10,12 +9,11 @@ public class Dinheiro implements FormaDePagamento {
 
     @Override
     public boolean processarPagamento(double valorDebitado) {
-        if (valorDebitado <= dinheiroDisponivel) {
-            CorridaPaga = true;
-            return CorridaPaga
+        if (valorDebitado <= DinheiroDisponivel) {
+            return true "Pagamento concluído";
         }
         else {
-            return CorridaPaga;
+            return false "Pagamento da corrida pendente!";
         }
 }
 }

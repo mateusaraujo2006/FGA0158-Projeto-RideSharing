@@ -1,20 +1,22 @@
 package app.pagamento;
 
 public class Debito implements FormaDePagamento {
+    private CadastroCartao Cartao;
     private double ValorEmConta;
 
-    public Debito(double valorEmConta) {
-        ValorEmConta = valorEmConta;
+    public PagamentoDebito(CadastroCartao cartao) {
+        this.Cartao = cartao;
+        this.ValorEmConta = cartao.getSaldo();
     }
 
     @Override
     public boolean processarPagamento(double valorDebitado) {
         if (valorDebitado <= ValorEmConta) {
             ValorEmConta -= valorDebitado;
-            return true;
+            return true "Pagamento realizado com sucesso";
         }
         else {
-            return false;
+            return false "Pagamento recusado: saldo insuficiente.";
         }
     }
 }
