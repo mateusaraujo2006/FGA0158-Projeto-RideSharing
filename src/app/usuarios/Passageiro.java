@@ -34,7 +34,7 @@ public class Passageiro extends Usuario {
 
                     break;
                 case 'B':
-                    System.out.println("Por segurança, digite seus dados de login:\t");
+                    System.out.println("Por segurança, digite seus dados de login:");
                     verificadorDeSeguranca();
                     mudarDados();
                     break;
