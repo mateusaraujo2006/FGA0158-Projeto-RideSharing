@@ -19,6 +19,8 @@ public abstract class Usuario {
 
     }
 
+    public abstract void login();
+
     public static Usuario verificadorDeSeguranca() {
         Usuario usuarioLogado = null;
         do { // força o usuário a não ser nulo
@@ -63,6 +65,4 @@ public abstract class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
-    public abstract void login();
 }
