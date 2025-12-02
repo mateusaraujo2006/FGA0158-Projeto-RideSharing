@@ -40,18 +40,7 @@ public class Sistema {
         scanner.close();
     }
 
-    public static List<Motorista> procurarMotorista() {
-        List<Motorista> motoristasOnline = null;
-            motoristasOnline = usuarios.stream()
-                    .filter(u -> u instanceof Motorista)
-                    .map(u -> (Motorista) u)
-                    .filter(m -> m.getStatusDisponibilidade() == StatusDisponibilidade.ONLINE && m.getValidadeCnh())
-                    .toList();
-            if (motoristasOnline.isEmpty()) {
-                throw new NenhumMotoristaDisponivelException("\nNenhum motorista disponível no momento.");
-            }
-        return motoristasOnline;
-    }
+
 
     public static void validadorDeCpf(String cpf) {
         cpf = cpf.replaceAll("[^0-9]", "");
@@ -256,6 +245,18 @@ public class Sistema {
         String codigoSeguranca = scanner.next();
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
+    public static List<Motorista> procurarMotorista() {
+        List<Motorista> motoristasOnline = null;
+        motoristasOnline = usuarios.stream()
+                .filter(u -> u instanceof Motorista)
+                .map(u -> (Motorista) u)
+                .filter(m -> m.getDisponibilidade() && m.getValidadeCnh())
+                .toList();
+        if (motoristasOnline.isEmpty()) {
+            throw new NenhumMotoristaDisponivelException("\nNenhum motorista disponível no momento.");
+        }
+        return motoristasOnline;
+    }
 
     public static void processarCorrida(Corrida corrida, Passageiro passageiro) {
         corridas.add(corrida);
@@ -284,6 +285,7 @@ public class Sistema {
                     case 1:
                         System.out.println("O Cliente " + passageiro.getNome() + "está solicitando uma corrida");
                         System.out.println(passageiro.getMediaAvaliacao());
+                        corrida.imprimir();
                         do {
                             System.out.println("Aceita o passageiro?");
                             System.out.println("1. Sim");
@@ -319,31 +321,39 @@ public class Sistema {
             }
         }
         try {
-            if (motorista != null) {
+            if (motorista == null) {
                 throw new NenhumMotoristaDisponivelException("Não encontramos nenhum motorista disponível");
             }
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
             return;
         }
-        System.out.println("1. Cancelar");
-        System.out.println("2. Finalizar");
-        System.out.println("3. Realizar Pagamento");
-        System.out.print("Escolha uma opção: ");
-        opcao = scanner.nextInt();
-        switch (opcao) {
-            case 1:
-                corrida.cancelar();
-                break;
-            case 2:
-                corrida.finalizar();
-                break;
-            case 3:
-                if (corrida.verificarEstadoParaPagar()) {
-                    passageiro.realizarPagamento(corrida.calcularPreco());
-                }
-                break;
-        }
+       corrida.iniciar();
+       while (true) {
+           System.out.println("1. Cancelar");
+           System.out.println("2. Finalizar");
+           System.out.println("3. Realizar Pagamento");
+           System.out.print("Escolha uma opção: ");
+           opcao = scanner.nextInt();
+           switch (opcao) {
+               case 1:
+                   if (corrida.cancelar()) {
+                       return;
+                   }
+                   break;
+               case 2:
+                   corrida.finalizar();
+                   break;
+               case 3:
+                   if (corrida.verificarEstadoParaPagar()) {
+                       passageiro.realizarPagamento(corrida.calcularPreco());
+                       return;
+                   }
+                   break;
+               default:
+                   System.out.println("Opção inválida.");
+           }
+       }
     }
 
     public static ArrayList<Usuario> getUsuarios() {

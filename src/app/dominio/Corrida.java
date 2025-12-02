@@ -5,6 +5,7 @@ public class Corrida {
     private StatusCorrida statusCorrida;
     private final Categoria CATEGORIA;
     private double distancia;
+    private boolean chegou = false;
 
 
     public Corrida(String origem, String destino, Categoria categoria ) {
@@ -15,35 +16,50 @@ public class Corrida {
         statusCorrida = StatusCorrida.SOLICITADA;
     }
 
+    public boolean getChegou() {
+        return chegou;
+    }
+
     public void imprimir() {
+        System.out.println("------ Dados da Corrida ------");
         System.out.println("Origem: " + ORIGEM);
         System.out.println("Destino: " + DESTINO);
         System.out.println("Distância" + distancia);
         System.out.println("Categoria: " + CATEGORIA.getNome());
         System.out.println("Preço: " + calcularPreco());
     }
-
-    public StatusCorrida getStatusCorrida() {
-        return statusCorrida;
-    }
-
-    public Categoria getCategoria() {
-        return CATEGORIA;
-    }
+    
 
     private void calcularDistancia() {
         this.distancia = 1 + (Math.random() * 999);
     }
 
-    public boolean iniciar() {
+    public void iniciar() {
         statusCorrida = StatusCorrida.EM_ANDAMENTO;
-        return true;
+        System.out.println("Corrida Iniciada.");
+        new Thread(() -> {
+            try {
+                Thread.sleep(25000); // 25 segundos
+                this.chegou = true;
+                System.out.println("O veiculo chegou a:" + DESTINO);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("A corrida foi interrompida.");
+            }
+        }).start();
     }
 
-    public boolean finalizar() {
+    public void finalizar() {
+        try {
+            if (!chegou) {
+                throw new EstadoInvalidoDaCorridaException("O veiculo não chegou em " + DESTINO);
+            }
+        } catch (EstadoInvalidoDaCorridaException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         statusCorrida = StatusCorrida.FINALIZADA;
         System.out.println("Corrida Finalizada.");
-        return true;
     }
 
     public boolean cancelar() {

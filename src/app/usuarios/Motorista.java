@@ -21,8 +21,11 @@ public class Motorista extends Usuario {
         return cnh.VerificarValidadeCnh();
     }
 
-    public StatusDisponibilidade getStatusDisponibilidade() {
-        return statusDisponibilidade;
+    public boolean getDisponibilidade() {
+        if (statusDisponibilidade == StatusDisponibilidade.ONLINE) {
+            return true;
+        }
+        return false;
     }
 
     @Override
