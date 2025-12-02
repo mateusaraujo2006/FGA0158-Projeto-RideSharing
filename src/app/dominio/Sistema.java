@@ -1,5 +1,6 @@
 package app.dominio;
 
+import app.excecoes.NenhumMotoristaDisponivelException;
 import app.usuarios.*;
 import app.veiculo.*;
 import app.pagamento.*;
@@ -40,14 +41,15 @@ public class Sistema {
     }
 
     public static Motorista procurarMotorista() {
-        List<Motorista> motoristasOnline = usuarios.stream()
-                .filter(u -> u instanceof Motorista)
-                .map(u -> (Motorista) u)
-                .filter(m -> m.getStatusDisponibilidade() == StatusDisponibilidade.ONLINE && m.getValidadeCnh())
-                .toList();
-        if (motoristasOnline.isEmpty()) {
-            return null;
-        }
+        List<Motorista> motoristasOnline = null;
+            motoristasOnline = usuarios.stream()
+                    .filter(u -> u instanceof Motorista)
+                    .map(u -> (Motorista) u)
+                    .filter(m -> m.getStatusDisponibilidade() == StatusDisponibilidade.ONLINE && m.getValidadeCnh())
+                    .toList();
+            if (motoristasOnline.isEmpty()) {
+                throw new NenhumMotoristaDisponivelException("\nNenhum motorista disponível no momento.");
+            }
         Random random = new Random();
         int index = random.nextInt(motoristasOnline.size());
         return motoristasOnline.get(index);
@@ -263,7 +265,13 @@ public class Sistema {
         System.out.println("1. Cancelar");
         System.out.println("2. Realizar Pagamento");
         System.out.print("Escolha uma opção: ");
-        Motorista motorista = procurarMotorista();
+        try {
+            Motorista motorista = procurarMotorista();
+        } catch (NenhumMotoristaDisponivelException e) {
+            corrida.cancelar();
+            System.out.println(e.getMessage() + "Corrida cancelada");
+            return;
+        }
         System.out.println("1. Cancelar");
         System.out.println("2. Realizar Pagamento");
         System.out.println("3. Finalizar");
