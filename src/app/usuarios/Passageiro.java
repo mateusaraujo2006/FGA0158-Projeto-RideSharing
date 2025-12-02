@@ -33,7 +33,7 @@ public class Passageiro extends Usuario {
 
             switch (resp) {
                 case 'A':
-
+                    solicitarCorrida();
                     break;
                 case 'B':
                     System.out.println("Por segurança, digite seus dados de login:");
