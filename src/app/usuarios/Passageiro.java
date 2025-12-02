@@ -1,8 +1,7 @@
 package app.usuarios;
 
 import app.dominio.*;
-import app.pagamento.Dinheiro;
-import app.pagamento.FormaDePagamento;
+import app.pagamento.*;
 
 import java.util.Scanner;
 
@@ -29,7 +28,8 @@ public class Passageiro extends Usuario {
             System.out.println("E. Logout");
             System.out.println("===============================");
             System.out.print("Escolha a sua opção de ação que desejar: ");
-            resp = input.nextLine().toUpperCase().charAt(0);
+            resp = input.next().toUpperCase().charAt(0);
+            input.nextLine();
 
             switch (resp) {
                 case 'A':
@@ -41,7 +41,7 @@ public class Passageiro extends Usuario {
                     mudarDados();
                     break;
                 case 'C':
-                    mudarFormaDePagamento();
+                    mudarFormaDePagamento(this);
                     break;
                 case 'D':
                     System.out.println("Por segurança, digite seus dados de login:");
@@ -56,10 +56,43 @@ public class Passageiro extends Usuario {
                     System.out.println("Opção inválida. Tente novamente.");
             }
         } while (resp != 'E');
-        input.close();
+        input.close(); // limpeza de buffer
     }
 
-    public static void mudarFormaDePagamento() {
+    public static void mudarFormaDePagamento(Passageiro p) {
+        int resp;
+        do {
+            System.out.println("==============================");
+            System.out.println("1. Credito");
+            System.out.println("2. Dinheiro");
+            System.out.println("3. Pix");
+            System.out.println("4. Debito");
+            System.out.println("===============================");
+            System.out.print  ("Escolha a forma de pagamento que irá usar: ");
+            resp = input.nextInt();
+            switch (resp) {
+                case 1:
+                    p.setPagamento(new Credito(Sistema.cadastrarCartao()));
+                    break;
+                case 2:
+                    System.out.print("Digite o dinheiro disponível: ");
+                    double dinheiro = input.nextDouble();
+                    p.setPagamento(new Dinheiro(dinheiro));
+                    break;
+                case 3:
+                    System.out.print("Digite o valor na conta: ");
+                    double valorNaConta = input.nextDouble();
+                    p.setPagamento(new Pix(valorNaConta));
+                    break;
+                case 4:
+                    System.out.println("Digite o seu saldo inicial: ");
+                    double saldoInicial = input.nextDouble();
+                    p.setPagamento(new Debito(Sistema.cadastrarCartao(), saldoInicial));
+                    break;
+                default:
+                    System.out.println("Opção invalída. Tente novamente.");
+                }
+            } while (resp < 1 || resp > 4);
 
     }
 
@@ -88,6 +121,11 @@ public class Passageiro extends Usuario {
         Sistema.processarCorrida(new Corrida(origem, destino, categoria));
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + ", pagamento=" + pagamento + '}';
+    }
+
     public double getDivida() {
         return divida;
     }
@@ -95,5 +133,10 @@ public class Passageiro extends Usuario {
     public void setDivida(double divida) {
         this.divida = divida;
     }
+
+    public void setPagamento(FormaDePagamento pagamento) {
+        this.pagamento = pagamento;
+    }
+
 
 }

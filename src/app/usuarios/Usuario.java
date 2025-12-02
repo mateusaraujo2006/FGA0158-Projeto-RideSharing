@@ -110,8 +110,7 @@ public abstract class Usuario {
                 ", email='" + email + '\'' +
                 ", senha='" + senha + '\'' +
                 ", cpf='" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                '}';
+                ", telefone='" + telefone + '\'';
     }
 
     public String getCpf() {
