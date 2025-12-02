@@ -23,8 +23,9 @@ public class Passageiro extends Usuario {
             System.out.println("===============================");
             System.out.println("A. Solicitar corrida");
             System.out.println("B. Mudar dados pessoais");
-            System.out.println("C. Mudar Forma de Pagamento");
-            System.out.println("D. Logout");
+            System.out.println("C. Mudar forma de pagamento");
+            System.out.println("D. Informações da conta");
+            System.out.println("E. Logout");
             System.out.println("===============================");
             System.out.print("Escolha a sua opção de ação que desejar: ");
             resp = input.nextLine().toUpperCase().charAt(0);
@@ -42,6 +43,11 @@ public class Passageiro extends Usuario {
                     mudarFormaDePagamento();
                     break;
                 case 'D':
+                    System.out.println("Por segurança, digite seus dados de login:");
+                    verificadorDeSeguranca();
+                    System.out.println(this);
+                    break;
+                case 'E':
                     System.out.println("Deslogando do Sistema...");
                     Sistema.main(null);
                     break;
@@ -51,7 +57,7 @@ public class Passageiro extends Usuario {
 
             }
 
-        } while (resp != 'D');
+        } while (resp != 'E');
 
         input.close();
     }
@@ -67,6 +73,8 @@ public class Passageiro extends Usuario {
     public void setDivida(double divida) {
         this.divida = divida;
     }
+
+
 
 
 }

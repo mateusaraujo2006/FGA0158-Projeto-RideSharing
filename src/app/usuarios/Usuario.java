@@ -1,5 +1,7 @@
 package app.usuarios;
 
+import app.dominio.Sistema;
+
 import java.util.Scanner;
 
 import static app.dominio.Sistema.getUsuarios;
@@ -51,7 +53,65 @@ public abstract class Usuario {
     }
 
     public static void mudarDados() {
+        Usuario usuarioLogado = null;
 
+        for (Usuario usuario : getUsuarios()) {
+            if(usuario.getCpf().equals(usuario.cpf)) {
+                usuarioLogado = usuario;
+            }
+        }
+
+        if (usuarioLogado != null) {
+            int resposta;
+            do {
+                System.out.println("===========================");
+                System.out.println("1. Mudar nome");
+                System.out.println("2. Mudar email");
+                System.out.println("3. Mudar senha");
+                System.out.println("4. Mudar telefone");
+                System.out.println("5. Voltar");
+                System.out.println("===========================");
+                System.out.print("Escolha sua opção: ");
+                resposta = scanner.nextInt();
+
+
+                switch (resposta) {
+                    case 1:
+                        System.out.print("Digite o novo nome: ");
+                        usuarioLogado.setNome(scanner.next());
+                        break;
+                    case 2:
+                        System.out.print("Digite o novo email: ");
+                        usuarioLogado.setEmail(scanner.next());
+                        break;
+                    case 3:
+                        System.out.print("Digite a nova senha: ");
+                        usuarioLogado.setSenha(scanner.next());
+                        break;
+                    case 4:
+                        System.out.print("Digite o novo telefone: ");
+                        usuarioLogado.setTelefone(scanner.next());
+                        break;
+
+                    default:
+                        System.out.println("Opção invalída. Digite novamente.");
+                }
+            } while (resposta != 5);
+        }
+        System.out.println();
+        Sistema.main(null);
+
+    }
+
+    @Override
+    public String toString() {
+        return "++++=======================++++\n" +
+                "nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", telefone='" + telefone + '\'' +
+                '}';
     }
 
     public String getCpf() {
@@ -64,5 +124,21 @@ public abstract class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }
