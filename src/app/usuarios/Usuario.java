@@ -91,7 +91,6 @@ public abstract class Usuario {
                 System.out.print("Escolha sua opção: ");
                 resposta = scanner.nextInt();
 
-
                 switch (resposta) {
                     case 1:
                         System.out.print("Digite o novo nome: ");
