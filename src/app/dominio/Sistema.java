@@ -109,13 +109,112 @@ public class Sistema {
     }
 
     public static void cadastrarUsuario() {
+
+        String[] dados;
+        dados = adquirirDadosComuns();
+        int tipoDeUsuario;
+        System.out.println("1. Passageiro");
+        System.out.println("2. Motorista");
+        System.out.print(" Digite o tipo de usuário: ");
+        tipoDeUsuario = scanner.nextInt();
+        
+        switch (tipoDeUsuario) {
+            
+            case 1:
+                cadastrarPassageiro(dados);
+                break;
+            case 2:
+                cadastraMotorista(dados);
+                break;
+        }
+
+        System.out.println("Usuário cadastrado com sucesso!");
+    }
+
+    private static void cadastraMotorista(String[] dados) {
+        System.out.print("Digite o número da CNH: ");
+        String numeroCnh = scanner.next();
+        System.out.print("Digite a categoria da CNH: ");
+        String categoriaCnh = scanner.next();
+        Cnh cnh = new Cnh(numeroCnh, categoriaCnh);
+
+        System.out.print("Digite a cor do veículo: ");
+        String cor = scanner.next();
+        System.out.print("Digite o modelo do veículo: ");
+        String modelo = scanner.next();
+        System.out.print("Digite o ano do veículo: ");
+        int ano = scanner.nextInt();
+        System.out.print("Digite a placa do veículo: ");
+        String placa = scanner.next();
+        Veiculo veiculo = new Veiculo(placa, modelo, cor, ano);
+        int disponivel =0;
+        StatusDisponibilidade disponibilidade = null;
+        do {
+            System.out.println("O motorista pode começar a trabalhar agora?");
+            System.out.println("1. Sim");
+            System.out.println("2. Não");
+            System.out.print("Escolha uma opção: ");
+            disponivel = scanner.nextInt();
+
+            switch (disponivel) {
+                case 1:
+                    disponibilidade = StatusDisponibilidade.ONLINE;
+                    break;
+                case 2:
+                    disponibilidade = StatusDisponibilidade.OFFLINE;
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+        }while(disponivel < 1 || disponivel > 2);
+        usuarios.add(new Motorista(dados[0], dados[1], dados[2], dados[3], dados[4], veiculo, cnh, disponibilidade));
+    }
+
+    private static void cadastrarPassageiro(String[] dados) {
+        FormaDePagamento pagamento = null;
+        int formaDePagamento = 0;
+        do {
+            System.out.println("1. Credito");
+            System.out.println("2. Dinheiro");
+            System.out.println("3. Pix");
+            System.out.println("4. Debito");
+            System.out.print("Escolha a forma de pagamento que irá usar: ");
+            formaDePagamento = scanner.nextInt();
+            switch (formaDePagamento) {
+                case 1:
+                    pagamento = new Credito(cadastrarCartao());
+                    break;
+                case 2:
+                    System.out.print("Digite o dinheiro disponível: ");
+                    double dinheiro = scanner.nextDouble();
+                    pagamento = new Dinheiro(dinheiro);
+                    break;
+                case 3:
+                    System.out.print("Digite a chave pix: ");
+                    double valorNaConta = scanner.nextDouble();
+                    pagamento = new Pix(valorNaConta);
+                    break;
+                case 4:
+                    System.out.println("Digite o seu saldo inicial: ");
+                    double saldoInicial = scanner.nextDouble();
+                    pagamento = new Debito(cadastrarCartao(), saldoInicial);
+                    break;
+                default:
+                    System.out.println("Opção de pagamento inválida.");
+                    break;
+            }
+        }while (formaDePagamento < 1 || formaDePagamento > 4);
+        usuarios.add(new Passageiro(dados[0], dados[1], dados[2], dados[3], dados[4], pagamento));
+    }
+
+    private static String[] adquirirDadosComuns() {
         String cpf;
         while (true) {
             try {
                 System.out.print("Digite o CPF: ");
                 cpf = scanner.next();
                 validadorDeCpf(cpf);
-                break; 
+                break;
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage() + " Tente novamente.");
             }
@@ -143,86 +242,7 @@ public class Sistema {
                 senhaDeConfimarcao = scanner.next();
             }while (!senha.equals(senhaDeConfimarcao));
         }
-        int tipoDeUsuario;
-        System.out.println("1. Passageiro");
-        System.out.println("2. Motorista");
-        System.out.print(" Digite o tipo de usuário: ");
-        tipoDeUsuario = scanner.nextInt();
-        
-        switch (tipoDeUsuario) {
-            
-            case 1:
-                FormaDePagamento pagamento = null;
-                System.out.println("1. Credito");
-                System.out.println("2. Dinheiro");
-                System.out.println("3. Pix");
-                System.out.println("4. Debito");
-                System.out.print("Escolha a forma de pagamento que irá usar: ");
-                int formaDePagamento = scanner.nextInt();
-                switch (formaDePagamento) {
-                    case 1:
-                        pagamento = new Credito(cadastrarCartao());
-                        break;
-                    case 2:
-                        System.out.print("Digite o dinheiro disponível: ");
-                        double dinheiro = scanner.nextDouble();
-                        pagamento = new Dinheiro(dinheiro);
-                        break;
-                    case 3:
-                        System.out.print("Digite a chave pix: ");
-                        double valorNaConta = scanner.nextDouble();
-                        pagamento = new Pix(valorNaConta);
-                        break;
-                    case 4:
-                        System.out.println("Digite o seu saldo inicial: ");
-                        double saldoInicial = scanner.nextDouble();
-                        pagamento = new Debito(cadastrarCartao(), saldoInicial);
-                        break;
-                    default:
-                        System.out.println("Opção de pagamento inválida.");
-                        break;
-                }
-                usuarios.add(new Passageiro(nome, email, senha, cpf, telefone, pagamento));
-                break;
-            case 2:
-                System.out.print("Digite o número da CNH: ");
-                String numeroCnh = scanner.next();
-                System.out.print("Digite a categoria da CNH: ");
-                String categoriaCnh = scanner.next();
-                Cnh cnh = new Cnh(numeroCnh, categoriaCnh);
-
-                System.out.print("Digite a cor do veículo: ");
-                String cor = scanner.next();
-                System.out.print("Digite o modelo do veículo: ");
-                String modelo = scanner.next();
-                System.out.print("Digite o ano do veículo: ");
-                int ano = scanner.nextInt();
-                System.out.print("Digite a placa do veículo: ");
-                String placa = scanner.next();
-                Veiculo veiculo = new Veiculo(placa, modelo, cor, ano);
-                int disponivel;
-                System.out.println("O motorista pode começar a trabalhar agora?");
-                System.out.println("1. Sim");
-                System.out.println("2. Não");
-                System.out.print("Escolha uma opção: ");
-                disponivel = scanner.nextInt();
-                StatusDisponibilidade disponibilidade;
-                switch (disponivel) {
-                    case 1:
-                        disponibilidade = StatusDisponibilidade.ONLINE;
-                        break;
-                    case 2:
-                        disponibilidade = StatusDisponibilidade.OFFLINE;
-                        break;
-                    default:
-                        System.out.println("Opção inválida.");
-                        return;
-                }
-                usuarios.add(new Motorista(nome, email, senha, cpf, telefone, veiculo, cnh, disponibilidade));
-                break;
-        }
-
-        System.out.println("Usuário cadastrado com sucesso!");
+        return new String[]{nome, email, senha, cpf, telefone};
     }
 
     public static CadastroCartao cadastrarCartao() {
