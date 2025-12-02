@@ -93,7 +93,6 @@ public class Passageiro extends Usuario {
                     System.out.println("Opção invalída. Tente novamente.");
                 }
             } while (resp < 1 || resp > 4);
-
     }
 
     public void solicitarCorrida() {
