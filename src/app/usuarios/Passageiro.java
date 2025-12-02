@@ -1,9 +1,11 @@
 package app.usuarios;
 
 import app.dominio.*;
+import app.excecoes.PagamentoRecusadoException;
 import app.pagamento.*;
 
 import java.util.Scanner;
+
 
 public class Passageiro extends Usuario {
     private FormaDePagamento pagamento;
@@ -26,6 +28,7 @@ public class Passageiro extends Usuario {
             System.out.println("C. Mudar forma de pagamento");
             System.out.println("D. Informações da conta");
             System.out.println("E. Logout");
+            if (divida > 0) System.out.println("F. Pagar dívida - R$" + divida);
             System.out.println("===============================");
             System.out.print("Escolha a sua opção de ação que desejar: ");
             resp = input.next().toUpperCase().charAt(0);
@@ -33,7 +36,11 @@ public class Passageiro extends Usuario {
 
             switch (resp) {
                 case 'A':
-                    solicitarCorrida();
+                    if (divida == 0) {
+                        solicitarCorrida();
+                    } else {
+                        System.out.println("Pagamento da corrida anterior pendente! Não é possível realizar uma nova corrida.");
+                    }
                     break;
                 case 'B':
                     System.out.println("Por segurança, digite seus dados de login:");
@@ -52,9 +59,15 @@ public class Passageiro extends Usuario {
                     System.out.println("Deslogando do Sistema...");
                     Sistema.main(null);
                     break;
+                case 'F':
+                    if (divida > 0) {
+                        realizarPagamento(divida);
+                        break;
+                    }
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
+
         } while (resp != 'E');
         input.close(); // limpeza de buffer
     }
@@ -125,19 +138,23 @@ public class Passageiro extends Usuario {
         return super.toString() + ", pagamento=" + pagamento + '}';
     }
 
-    public double getDivida() {
-        return divida;
-    }
-
     public void setDivida(double divida) {
         this.divida = divida;
     }
     public void realizarPagamento(double valor) {
-        pagamento.processarPagamento(valor);
+        try {
+            if (!pagamento.processarPagamento(valor)) {
+                setDivida(valor);
+                throw new PagamentoRecusadoException("Pagamento recusado devido a saldo insuficiente!");
+            } else {
+                setDivida(0);
+            }
+        } catch (PagamentoRecusadoException e) {
+            System.out.println(e.getMessage());
+        }
     }
     public void setPagamento(FormaDePagamento pagamento) {
         this.pagamento = pagamento;
     }
-
 
 }

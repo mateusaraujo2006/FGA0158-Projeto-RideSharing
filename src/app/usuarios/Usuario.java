@@ -149,10 +149,6 @@ public abstract class Usuario {
         this.email = email;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }

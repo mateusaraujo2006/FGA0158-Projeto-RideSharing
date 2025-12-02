@@ -24,7 +24,7 @@ public class Corrida {
         System.out.println("------ Dados da Corrida ------");
         System.out.println("Origem: " + ORIGEM);
         System.out.println("Destino: " + DESTINO);
-        System.out.println("Distância" + distancia);
+        System.out.println("Distância: " + distancia);
         System.out.println("Categoria: " + CATEGORIA.getNome());
         System.out.println("Preço: " + calcularPreco());
     }
