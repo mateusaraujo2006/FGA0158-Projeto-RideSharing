@@ -54,12 +54,8 @@ public class Passageiro extends Usuario {
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
-
-
             }
-
         } while (resp != 'E');
-
         input.close();
     }
 
