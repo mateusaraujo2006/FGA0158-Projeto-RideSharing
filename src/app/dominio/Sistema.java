@@ -274,6 +274,38 @@ public class Sistema {
             System.out.println(e.getMessage());
             return;
         }
+        Motorista motorista = adquirirMotorista(corrida,passageiro, motoristasDisponiveis, confirmacao);
+        if (motorista == null) return;
+        corrida.iniciar();
+       while (true) {
+           System.out.println("1. Cancelar");
+           System.out.println("2. Finalizar");
+           System.out.println("3. Realizar Pagamento");
+           System.out.print("Escolha uma opção: ");
+           opcao = scanner.nextInt();
+           switch (opcao) {
+               case 1:
+                   if (corrida.cancelar()) {
+                       return;
+                   }
+                   break;
+               case 2:
+                   corrida.finalizar();
+                   break;
+               case 3:
+                   if (corrida.verificarEstadoParaPagar()) {
+                       passageiro.realizarPagamento(corrida.calcularPreco());
+                       return;
+                   }
+                   break;
+               default:
+                   System.out.println("Opção inválida.");
+           }
+       }
+    }
+
+    private static Motorista adquirirMotorista(Corrida corrida, Passageiro passageiro, List<Motorista> motoristasDisponiveis, boolean confirmacao) {
+        int opcao;
         Motorista motorista = null;
         for (Motorista i : motoristasDisponiveis) {
             System.out.println("Encontramos o motorista: " + i.getNome());
@@ -314,7 +346,7 @@ public class Sistema {
                     case 3:
                         System.out.println("Corrida cancelada");
                         corrida.cancelar();
-                        return;
+                        return null;
                     default:
                         System.out.println("Opção inválida.");
                 }
@@ -330,34 +362,9 @@ public class Sistema {
             }
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
-            return;
+            return null;
         }
-       corrida.iniciar();
-       while (true) {
-           System.out.println("1. Cancelar");
-           System.out.println("2. Finalizar");
-           System.out.println("3. Realizar Pagamento");
-           System.out.print("Escolha uma opção: ");
-           opcao = scanner.nextInt();
-           switch (opcao) {
-               case 1:
-                   if (corrida.cancelar()) {
-                       return;
-                   }
-                   break;
-               case 2:
-                   corrida.finalizar();
-                   break;
-               case 3:
-                   if (corrida.verificarEstadoParaPagar()) {
-                       passageiro.realizarPagamento(corrida.calcularPreco());
-                       return;
-                   }
-                   break;
-               default:
-                   System.out.println("Opção inválida.");
-           }
-       }
+        return motorista;
     }
 
     public static ArrayList<Usuario> getUsuarios() {
