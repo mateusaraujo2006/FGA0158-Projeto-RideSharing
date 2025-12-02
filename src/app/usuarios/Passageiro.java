@@ -118,7 +118,7 @@ public class Passageiro extends Usuario {
 
         } while (opc != 1 && opc != 2);
         input.nextLine(); // limpeza de buffer
-        Sistema.processarCorrida(new Corrida(origem, destino, categoria));
+        Sistema.processarCorrida(new Corrida(origem, destino, categoria), this);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class Sistema {
         scanner.close();
     }
 
-    public static Motorista procurarMotorista() {
+    public static List<Motorista> procurarMotorista() {
         List<Motorista> motoristasOnline = null;
             motoristasOnline = usuarios.stream()
                     .filter(u -> u instanceof Motorista)
@@ -50,9 +50,7 @@ public class Sistema {
             if (motoristasOnline.isEmpty()) {
                 throw new NenhumMotoristaDisponivelException("\nNenhum motorista disponível no momento.");
             }
-        Random random = new Random();
-        int index = random.nextInt(motoristasOnline.size());
-        return motoristasOnline.get(index);
+        return motoristasOnline;
     }
 
     public static void validadorDeCpf(String cpf) {
@@ -259,36 +257,60 @@ public class Sistema {
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
 
-    public static void processarCorrida(Corrida corrida) {
+    public static void processarCorrida(Corrida corrida, Passageiro passageiro) {
         corridas.add(corrida);
         int opcao = 0;
-        System.out.println("1. Cancelar");
-        System.out.println("2. Realizar Pagamento");
-        System.out.print("Escolha uma opção: ");
-        try {
-            Motorista motorista = procurarMotorista();
-        } catch (NenhumMotoristaDisponivelException e) {
-            corrida.cancelar();
-            System.out.println(e.getMessage() + "Corrida cancelada");
-            return;
-        }
-        System.out.println("1. Cancelar");
-        System.out.println("2. Realizar Pagamento");
-        System.out.println("3. Finalizar");
-        opcao = scanner.nextInt();
-        switch (opcao) {
-            case 1:
-                corrida.cancelar();
-                break;
-            case 2:
-                break;
-            case 3:
-                corrida.finalizar();
-                break;
-            default:
-                System.out.println("Opção inválida.");
-        }
+        boolean confirmacao = false;
+        List<Motorista> motoristasDisponiveis = procurarMotorista();
+        Motorista motorista = null;
+        for (Motorista i : motoristasDisponiveis) {
+            System.out.println("Encontramos o motorista: " + i.getNome());
+            System.out.println(i.getMediaAvaliacao());
+            do {
+                System.out.println("Aceita o motorista?");
+                System.out.println("1. Sim");
+                System.out.println("2. Não");
+                System.out.println("3. Cancelar corrida");
+                System.out.print("Escolha uma opção: ");
+                opcao = scanner.nextInt();
+                switch (opcao) {
+                    case 1:
+                        System.out.println("O Cliente " + passageiro.getNome() + "está solicitando uma corrida");
+                        System.out.println(passageiro.getMediaAvaliacao());
+                        do {
+                            System.out.println("Aceita o passageiro?");
+                            System.out.println("1. Sim");
+                            System.out.println("2. Não");
+                            System.out.print("Escolha uma opção: ");
+                            opcao = scanner.nextInt();
+                            switch (opcao) {
+                                case 1:
+                                    confirmacao = true;
+                                    motorista = i;
+                                    break;
+                                case 2:
+                                    break;
+                                default:
+                                    System.out.println("Opção inválida.");
+                            }
 
+                        }while (opcao < 1 || opcao > 3);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        System.out.println("Corrida cancelada");
+                        corrida.cancelar();
+                        return;
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+
+            }while (opcao < 1 || opcao > 3);
+            if (confirmacao) {
+                break;
+            }
+        }
 
     }
 
