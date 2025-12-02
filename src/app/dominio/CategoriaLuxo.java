@@ -9,4 +9,9 @@ public class CategoriaLuxo implements Categoria {
         return distancia*MULTIPLICADOR + TARIFA_BASE;
     }
 
+    @Override
+    public String getNome() {
+        return "Luxo";
+    }
+
 }

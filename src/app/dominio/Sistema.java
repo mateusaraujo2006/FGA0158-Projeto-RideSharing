@@ -259,9 +259,16 @@ public class Sistema {
 
     public static void processarCorrida(Corrida corrida, Passageiro passageiro) {
         corridas.add(corrida);
+        corrida.imprimir();
         int opcao = 0;
         boolean confirmacao = false;
-        List<Motorista> motoristasDisponiveis = procurarMotorista();
+        List<Motorista> motoristasDisponiveis = null;
+        try {
+            motoristasDisponiveis = procurarMotorista();
+        } catch (NenhumMotoristaDisponivelException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
         Motorista motorista = null;
         for (Motorista i : motoristasDisponiveis) {
             System.out.println("Encontramos o motorista: " + i.getNome());
@@ -311,7 +318,32 @@ public class Sistema {
                 break;
             }
         }
-
+        try {
+            if (motorista != null) {
+                throw new NenhumMotoristaDisponivelException("Não encontramos nenhum motorista disponível");
+            }
+        } catch (NenhumMotoristaDisponivelException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        System.out.println("1. Cancelar");
+        System.out.println("2. Finalizar");
+        System.out.println("3. Realizar Pagamento");
+        System.out.print("Escolha uma opção: ");
+        opcao = scanner.nextInt();
+        switch (opcao) {
+            case 1:
+                corrida.cancelar();
+                break;
+            case 2:
+                corrida.finalizar();
+                break;
+            case 3:
+                if (corrida.verificarEstadoParaPagar()) {
+                    passageiro.realizarPagamento(corrida.calcularPreco());
+                }
+                break;
+        }
     }
 
     public static ArrayList<Usuario> getUsuarios() {

@@ -132,7 +132,9 @@ public class Passageiro extends Usuario {
     public void setDivida(double divida) {
         this.divida = divida;
     }
-
+    public void realizarPagamento(double valor) {
+        pagamento.processarPagamento(valor);
+    }
     public void setPagamento(FormaDePagamento pagamento) {
         this.pagamento = pagamento;
     }
