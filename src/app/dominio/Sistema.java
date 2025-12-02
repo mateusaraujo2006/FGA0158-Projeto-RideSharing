@@ -43,6 +43,11 @@ public class Sistema {
 
 
     public static void validadorDeCpf(String cpf) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getCpf().equals(cpf)) {
+                throw new InputMismatchException("CPF já cadastrado.");
+            }
+        }
         cpf = cpf.replaceAll("[^0-9]", "");
 
         if (cpf.length() != 11) {
@@ -61,7 +66,7 @@ public class Sistema {
             sm = 0;
             peso = 10;
             for (i = 0; i < 9; i++) {
-                num = (int) (cpf.charAt(i) - 48);
+                num = cpf.charAt(i) - 48;
                 sm = sm + (num * peso);
                 peso = peso - 1;
             }
@@ -72,12 +77,11 @@ public class Sistema {
             } else {
                 dig10 = (char) (r + 48);
             }
-
             // Cálculo do 2º Dígito Verificador
             sm = 0;
             peso = 11;
             for (i = 0; i < 10; i++) {
-                num = (int) (cpf.charAt(i) - 48);
+                num = cpf.charAt(i) - 48;
                 sm = sm + (num * peso);
                 peso = peso - 1;
             }
