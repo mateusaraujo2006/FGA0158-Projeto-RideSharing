@@ -1,6 +1,7 @@
 package app.usuarios;
 
 import app.dominio.*;
+import app.pagamento.Dinheiro;
 import app.pagamento.FormaDePagamento;
 
 import java.util.Scanner;
@@ -69,7 +70,7 @@ public class Passageiro extends Usuario {
     public Corrida solicitarCorrida() {
         System.out.print("Informe o seu ponto de origem: ");
         String origem = input.nextLine();
-        System.out.println("Informe o seu ponto de destino: ");
+        System.out.print("Informe o seu ponto de destino: ");
         String destino = input.nextLine();
 
         Categoria categoria = null;
@@ -86,7 +87,7 @@ public class Passageiro extends Usuario {
                 default -> System.out.println("Opção Invalída. Tente novamente.");
             }
 
-        } while (opc != 1);
+        } while (opc != 1 && opc != 2);
 
         return new Corrida(origem, destino, categoria);
     }
