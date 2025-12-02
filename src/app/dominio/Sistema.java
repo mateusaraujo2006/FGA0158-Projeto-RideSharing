@@ -43,6 +43,11 @@ public class Sistema {
 
 
     public static void validadorDeCpf(String cpf) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getCpf().equals(cpf)) {
+                throw new InputMismatchException("CPF já cadastrado.");
+            }
+        }
         cpf = cpf.replaceAll("[^0-9]", "");
 
         if (cpf.length() != 11) {
@@ -61,7 +66,7 @@ public class Sistema {
             sm = 0;
             peso = 10;
             for (i = 0; i < 9; i++) {
-                num = (int) (cpf.charAt(i) - 48);
+                num = cpf.charAt(i) - 48;
                 sm = sm + (num * peso);
                 peso = peso - 1;
             }
@@ -72,12 +77,11 @@ public class Sistema {
             } else {
                 dig10 = (char) (r + 48);
             }
-
             // Cálculo do 2º Dígito Verificador
             sm = 0;
             peso = 11;
             for (i = 0; i < 10; i++) {
-                num = (int) (cpf.charAt(i) - 48);
+                num = cpf.charAt(i) - 48;
                 sm = sm + (num * peso);
                 peso = peso - 1;
             }
@@ -245,7 +249,7 @@ public class Sistema {
         String codigoSeguranca = scanner.next();
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
-    public static List<Motorista> procurarMotorista() {
+    public static List<Motorista> procurarMotoristas() {
         List<Motorista> motoristasOnline = null;
         motoristasOnline = usuarios.stream()
                 .filter(u -> u instanceof Motorista)
@@ -265,11 +269,43 @@ public class Sistema {
         boolean confirmacao = false;
         List<Motorista> motoristasDisponiveis = null;
         try {
-            motoristasDisponiveis = procurarMotorista();
+            motoristasDisponiveis = procurarMotoristas();
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
             return;
         }
+        Motorista motorista = adquirirMotorista(corrida,passageiro, motoristasDisponiveis, confirmacao);
+        if (motorista == null) return;
+        corrida.iniciar();
+       while (true) {
+           System.out.println("1. Cancelar");
+           System.out.println("2. Finalizar");
+           System.out.println("3. Realizar Pagamento");
+           System.out.print("Escolha uma opção: ");
+           opcao = scanner.nextInt();
+           switch (opcao) {
+               case 1:
+                   if (corrida.cancelar()) {
+                       return;
+                   }
+                   break;
+               case 2:
+                   corrida.finalizar();
+                   break;
+               case 3:
+                   if (corrida.verificarEstadoParaPagar()) {
+                       passageiro.realizarPagamento(corrida.calcularPreco());
+                       return;
+                   }
+                   break;
+               default:
+                   System.out.println("Opção inválida.");
+           }
+       }
+    }
+
+    private static Motorista adquirirMotorista(Corrida corrida, Passageiro passageiro, List<Motorista> motoristasDisponiveis, boolean confirmacao) {
+        int opcao;
         Motorista motorista = null;
         for (Motorista i : motoristasDisponiveis) {
             System.out.println("Encontramos o motorista: " + i.getNome());
@@ -298,6 +334,7 @@ public class Sistema {
                                     motorista = i;
                                     break;
                                 case 2:
+                                    System.out.println("O motorista recusou a corrida");
                                     break;
                                 default:
                                     System.out.println("Opção inválida.");
@@ -310,7 +347,7 @@ public class Sistema {
                     case 3:
                         System.out.println("Corrida cancelada");
                         corrida.cancelar();
-                        return;
+                        return null;
                     default:
                         System.out.println("Opção inválida.");
                 }
@@ -322,38 +359,13 @@ public class Sistema {
         }
         try {
             if (motorista == null) {
-                throw new NenhumMotoristaDisponivelException("Não encontramos nenhum motorista disponível");
+                throw new NenhumMotoristaDisponivelException("Não há mais nenhum motorista disponível");
             }
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
-            return;
+            return null;
         }
-       corrida.iniciar();
-       while (true) {
-           System.out.println("1. Cancelar");
-           System.out.println("2. Finalizar");
-           System.out.println("3. Realizar Pagamento");
-           System.out.print("Escolha uma opção: ");
-           opcao = scanner.nextInt();
-           switch (opcao) {
-               case 1:
-                   if (corrida.cancelar()) {
-                       return;
-                   }
-                   break;
-               case 2:
-                   corrida.finalizar();
-                   break;
-               case 3:
-                   if (corrida.verificarEstadoParaPagar()) {
-                       passageiro.realizarPagamento(corrida.calcularPreco());
-                       return;
-                   }
-                   break;
-               default:
-                   System.out.println("Opção inválida.");
-           }
-       }
+        return motorista;
     }
 
     public static ArrayList<Usuario> getUsuarios() {

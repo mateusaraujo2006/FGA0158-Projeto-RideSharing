@@ -65,7 +65,7 @@ public class Corrida {
     public boolean cancelar() {
         try {
             if (StatusCorrida.SOLICITADA != statusCorrida) {
-                throw new EstadoInvalidoDaCorridaException("Não é possível cancelar uma corrida em andamento");
+                throw new EstadoInvalidoDaCorridaException("Não é possível cancelar uma corrida em andamento ou finalizada.");
             }
         }catch (EstadoInvalidoDaCorridaException e) {
             System.out.println(e.getMessage());
@@ -82,7 +82,7 @@ public class Corrida {
 
     public boolean verificarEstadoParaPagar() {
         try {
-            if (StatusCorrida.EM_ANDAMENTO == statusCorrida) {
+            if (StatusCorrida.FINALIZADA != statusCorrida) {
                 throw new EstadoInvalidoDaCorridaException("Espere a corrida terminar para pagar.");
             }
 
