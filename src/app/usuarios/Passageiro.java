@@ -63,7 +63,7 @@ public class Passageiro extends Usuario {
 
     }
 
-    public Corrida solicitarCorrida() {
+    public void solicitarCorrida() {
         System.out.print("Informe o seu ponto de origem: ");
         String origem = input.nextLine();
         System.out.print("Informe o seu ponto de destino: ");
@@ -84,8 +84,7 @@ public class Passageiro extends Usuario {
             }
 
         } while (opc != 1 && opc != 2);
-
-        return new Corrida(origem, destino, categoria);
+        Sistema.processarCorrida(new Corrida(origem, destino, categoria));
     }
 
     public double getDivida() {

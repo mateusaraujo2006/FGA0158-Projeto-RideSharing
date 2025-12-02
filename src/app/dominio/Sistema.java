@@ -257,6 +257,33 @@ public class Sistema {
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
 
+    public static void processarCorrida(Corrida corrida) {
+        corridas.add(corrida);
+        int opcao = 0;
+        System.out.println("1. Cancelar");
+        System.out.println("2. Realizar Pagamento");
+        System.out.print("Escolha uma opção: ");
+        Motorista motorista = procurarMotorista();
+        System.out.println("1. Cancelar");
+        System.out.println("2. Realizar Pagamento");
+        System.out.println("3. Finalizar");
+        opcao = scanner.nextInt();
+        switch (opcao) {
+            case 1:
+                corrida.cancelar();
+                break;
+            case 2:
+                break;
+            case 3:
+                corrida.finalizar();
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
+
+
+    }
+
     public static ArrayList<Usuario> getUsuarios() {
         return usuarios;
     }
