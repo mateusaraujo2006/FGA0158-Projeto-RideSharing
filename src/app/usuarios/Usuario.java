@@ -2,13 +2,15 @@ package app.usuarios;
 
 import app.dominio.Sistema;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static app.dominio.Sistema.getUsuarios;
 
 public abstract class Usuario {
     private String nome, email, senha, cpf, telefone;
-    private Avaliacao avaliacao;
+    private ArrayList<Avaliacao> avaliacoes = new ArrayList<>();
+
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -19,6 +21,21 @@ public abstract class Usuario {
         this.cpf = cpf;
         this.telefone = telefone;
 
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getMediaAvaliacao() {
+        if (avaliacoes.isEmpty()) {
+            return nome + "ainda não foi avaliada.";
+        }
+        int soma = 0;
+        for (Avaliacao av : avaliacoes) {
+            soma += av.getNota();
+        }
+        return nome + " tem uma média de " + soma/avaliacoes.size() + " estrelas.";
     }
 
     public abstract void login();
