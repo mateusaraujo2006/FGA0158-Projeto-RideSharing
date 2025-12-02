@@ -1,9 +1,14 @@
 package app.usuarios;
+import app.dominio.Sistema;
 import app.veiculo.*;
+
+import java.util.Scanner;
+
 public class Motorista extends Usuario {
     private Veiculo veiculo;
     private Cnh cnh;
     private StatusDisponibilidade statusDisponibilidade;
+    private static final Scanner input = new Scanner(System.in);
 
     public Motorista(String nome, String email, String senha, String cpf, String telefone, Veiculo veiculo, Cnh cnh, StatusDisponibilidade statusDisponibilidade) {
         super(nome, email, senha, cpf, telefone);
