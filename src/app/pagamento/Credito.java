@@ -21,4 +21,9 @@ public class Credito implements FormaDePagamento {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "'Credito'";
+    }
 }

@@ -21,4 +21,9 @@ public class Debito implements FormaDePagamento {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "'Debito'";
+    }
 }

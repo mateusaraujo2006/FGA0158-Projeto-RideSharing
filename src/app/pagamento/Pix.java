@@ -40,4 +40,9 @@ public class Pix implements FormaDePagamento {
         System.out.println("Pagamento recusado: saldo insuficiente.");
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "'Pix'";
+    }
 }

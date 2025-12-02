@@ -17,5 +17,12 @@ public class Dinheiro implements FormaDePagamento {
             System.out.println("Pagamento da corrida pendente!");
             return false;
         }
-}
+
+
+    }
+
+    @Override
+    public String toString() {
+        return "'Dinheiro'";
+    }
 }
