@@ -249,7 +249,7 @@ public class Sistema {
         String codigoSeguranca = scanner.next();
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
-    public static List<Motorista> procurarMotorista() {
+    public static List<Motorista> procurarMotoristas() {
         List<Motorista> motoristasOnline = null;
         motoristasOnline = usuarios.stream()
                 .filter(u -> u instanceof Motorista)
@@ -269,7 +269,7 @@ public class Sistema {
         boolean confirmacao = false;
         List<Motorista> motoristasDisponiveis = null;
         try {
-            motoristasDisponiveis = procurarMotorista();
+            motoristasDisponiveis = procurarMotoristas();
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
             return;
@@ -334,6 +334,7 @@ public class Sistema {
                                     motorista = i;
                                     break;
                                 case 2:
+                                    System.out.println("O motorista recusou a corrida");
                                     break;
                                 default:
                                     System.out.println("Opção inválida.");
@@ -358,7 +359,7 @@ public class Sistema {
         }
         try {
             if (motorista == null) {
-                throw new NenhumMotoristaDisponivelException("Não encontramos nenhum motorista disponível");
+                throw new NenhumMotoristaDisponivelException("Não há mais nenhum motorista disponível");
             }
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
