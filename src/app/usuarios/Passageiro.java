@@ -71,14 +71,14 @@ public class Passageiro extends Usuario {
         String origem = input.nextLine();
         System.out.println("Informe o seu ponto de destino: ");
         String destino = input.nextLine();
-        System.out.println("Informe a sua categoria: ");
-        System.out.println("1. Comum");
-        System.out.println("2. Luxo");
-        System.out.print("Escolha: ");
 
         Categoria categoria = null;
         int opc;
         do {
+            System.out.println("Informe a sua categoria: ");
+            System.out.println("1. Comum");
+            System.out.println("2. Luxo");
+            System.out.print  ("Escolha: ");
             opc = input.nextInt();
             switch (opc) {
                 case 1 -> categoria = new CategoriaComum();
