@@ -17,6 +17,10 @@ public class Motorista extends Usuario {
         this.statusDisponibilidade = statusDisponibilidade;
     }
 
+    public boolean getValidadeCnh() {
+        return cnh.VerificarValidadeCnh();
+    }
+
     public StatusDisponibilidade getStatusDisponibilidade() {
         return statusDisponibilidade;
     }

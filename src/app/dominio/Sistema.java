@@ -43,7 +43,7 @@ public class Sistema {
         List<Motorista> motoristasOnline = usuarios.stream()
                 .filter(u -> u instanceof Motorista)
                 .map(u -> (Motorista) u)
-                .filter(m -> m.getStatusDisponibilidade() == StatusDisponibilidade.ONLINE)
+                .filter(m -> m.getStatusDisponibilidade() == StatusDisponibilidade.ONLINE && m.getValidadeCnh())
                 .toList();
         if (motoristasOnline.isEmpty()) {
             return null;
@@ -134,7 +134,7 @@ public class Sistema {
     private static void cadastraMotorista(String[] dados) {
         System.out.print("Digite o número da CNH: ");
         String numeroCnh = scanner.next();
-        System.out.print("Digite a categoria da CNH: ");
+        System.out.print("Digite a data de validade da CNH: ");
         String categoriaCnh = scanner.next();
         Cnh cnh = new Cnh(numeroCnh, categoriaCnh);
 
@@ -190,7 +190,7 @@ public class Sistema {
                     pagamento = new Dinheiro(dinheiro);
                     break;
                 case 3:
-                    System.out.print("Digite a chave pix: ");
+                    System.out.print("Digite o valor na conta: ");
                     double valorNaConta = scanner.nextDouble();
                     pagamento = new Pix(valorNaConta);
                     break;
