@@ -1,6 +1,6 @@
 package app.usuarios;
 
-import app.dominio.Sistema;
+import app.dominio.*;
 import app.pagamento.FormaDePagamento;
 
 import java.util.Scanner;
@@ -66,6 +66,31 @@ public class Passageiro extends Usuario {
 
     }
 
+    public Corrida solicitarCorrida() {
+        System.out.print("Informe o seu ponto de origem: ");
+        String origem = input.nextLine();
+        System.out.println("Informe o seu ponto de destino: ");
+        String destino = input.nextLine();
+        System.out.println("Informe a sua categoria: ");
+        System.out.println("1. Comum");
+        System.out.println("2. Luxo");
+        System.out.print("Escolha: ");
+
+        Categoria categoria = null;
+        int opc;
+        do {
+            opc = input.nextInt();
+            switch (opc) {
+                case 1 -> categoria = new CategoriaComum();
+                case 2 -> categoria = new CategoriaLuxo();
+                default -> System.out.println("Opção Invalída. Tente novamente.");
+            }
+
+        } while (opc != 1);
+
+        return new Corrida(origem, destino, categoria);
+    }
+
     public double getDivida() {
         return divida;
     }
@@ -73,8 +98,5 @@ public class Passageiro extends Usuario {
     public void setDivida(double divida) {
         this.divida = divida;
     }
-
-
-
 
 }
