@@ -1,5 +1,8 @@
 package app.dominio;
 import app.excecoes.EstadoInvalidoDaCorridaException;
+import app.usuarios.Motorista;
+import app.usuarios.StatusDisponibilidade;
+
 public class Corrida {
     private final String ORIGEM, DESTINO;
     private StatusCorrida statusCorrida;
@@ -30,7 +33,7 @@ public class Corrida {
         this.distancia = Math.round((1 + (Math.random() * 999) * 100) / 100.0);
     }
 
-    public void iniciar() {
+    public void iniciar(Motorista motorista) {
         statusCorrida = StatusCorrida.EM_ANDAMENTO;
         System.out.println("Corrida Iniciada.");
         new Thread(() -> {
@@ -38,6 +41,7 @@ public class Corrida {
                 Thread.sleep(25000); // 25 segundos
                 this.chegou = true;
                 System.out.println("\nO veiculo chegou a:" + DESTINO);
+                motorista.setStatusDisponibilidade(StatusDisponibilidade.ONLINE);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.err.println("A corrida foi interrompida.");
@@ -45,7 +49,7 @@ public class Corrida {
         }).start();
     }
 
-    public void finalizar() {
+    public void finalizar(Motorista motorista) {
         try {
             if (!chegou) {
                 throw new EstadoInvalidoDaCorridaException("\nO veiculo não chegou em " + DESTINO);
@@ -55,6 +59,7 @@ public class Corrida {
             return;
         }
         statusCorrida = StatusCorrida.FINALIZADA;
+        motorista.setStatusDisponibilidade(StatusDisponibilidade.ONLINE);
         System.out.println("Corrida Finalizada.");
     }
 

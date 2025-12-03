@@ -1,7 +1,6 @@
 package app.usuarios;
 
 import app.dominio.*;
-import app.excecoes.PagamentoRecusadoException;
 import app.pagamento.*;
 
 import java.util.Scanner;

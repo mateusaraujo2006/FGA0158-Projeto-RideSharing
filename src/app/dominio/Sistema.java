@@ -307,7 +307,7 @@ public class Sistema {
         Motorista motorista = adquirirMotorista(corrida,passageiro, motoristasDisponiveis, confirmacao);
         if (motorista == null) return;
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        corrida.iniciar();
+        corrida.iniciar(motorista);
        while (true) {
            System.out.println("1. Cancelar");
            System.out.println("2. Finalizar");
@@ -321,7 +321,7 @@ public class Sistema {
                    }
                    break;
                case 2:
-                   corrida.finalizar();
+                   corrida.finalizar(motorista);
                    break;
                case 3:
                    if (corrida.verificarEstadoParaPagar()) {
