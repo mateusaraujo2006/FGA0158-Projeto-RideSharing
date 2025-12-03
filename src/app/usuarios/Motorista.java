@@ -1,4 +1,7 @@
 package app.usuarios;
+import app.dominio.Categoria;
+import app.dominio.CategoriaComum;
+import app.dominio.CategoriaLuxo;
 import app.dominio.Sistema;
 import app.veiculo.*;
 
@@ -26,6 +29,9 @@ public class Motorista extends Usuario {
             return true;
         }
         return false;
+    }
+    public Categoria getCategoriaVeiculo() {
+        return  veiculo.getCategoria();
     }
 
     @Override
@@ -103,8 +109,31 @@ public class Motorista extends Usuario {
         System.out.print("Digite a nova Placa do Veículo: ");
         String novaPlaca = input.nextLine();
 
-        System.out.print("Digite a Categoria do Veículo (Ex: Comum, Luxo): ");
-        String novaCategoria = input.nextLine();
+        System.out.print("Digite a cor do Veículo: ");
+        String novaCor = input.nextLine();
+        System.out.print("digite o ano do veículo: ");
+        int novoAno = input.nextInt();
+        input.nextLine();
+        System.out.print("Digite a categoria do veículo (Comum ou luxo): ");
+        System.out.println("1. Comum");
+        System.out.println("2. Luxo");
+        System.out.print("Escolha uma opção");
+        int escolha = input.nextInt();
+        Categoria novaCategoria = null;
+        do {
+            switch (escolha) {
+                case 1:
+                    novaCategoria = new CategoriaComum();
+                case 2:
+                    novaCategoria = new CategoriaLuxo();
+                default:
+                    System.out.println("Opção inválida.");
+            }
+
+        }while (escolha != 1 && escolha != 2);
+
+        veiculo = new Veiculo(novoModelo, novaPlaca, novaCor, novoAno, novaCategoria);
+
 
 
         System.out.println("\nVeículo atualizado para: " + novoModelo + " (" + novaPlaca + ").");

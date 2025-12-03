@@ -1,11 +1,11 @@
 package app.pagamento;
 
 public class Credito implements FormaDePagamento {
-    private CadastroCartao Cartao;
+    private CadastroCartao cartao;
     private double Limite;
 
     public Credito(CadastroCartao cartao) {
-        this.Cartao = cartao;
+        this.cartao = cartao;
         this.Limite = cartao.getLimite();
     }
 

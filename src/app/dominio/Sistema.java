@@ -157,7 +157,25 @@ public class Sistema {
         int ano = scanner.nextInt();
         System.out.print("Digite a placa do veículo: ");
         String placa = scanner.next();
-        Veiculo veiculo = new Veiculo(placa, modelo, cor, ano);
+        System.out.print("Digite a categoria do veículo (Comum ou luxo): ");
+        System.out.println("1. Comum");
+        System.out.println("2. Luxo");
+        System.out.print("Escolha uma opção");
+        int escolha = scanner.nextInt();
+        Categoria categoria = null;
+        do {
+            switch (escolha) {
+                case 1:
+                    categoria = new CategoriaComum();
+                case 2:
+                    categoria = new CategoriaLuxo();
+                default:
+                    System.out.println("Opção inválida.");
+            }
+
+        }while (escolha != 1 && escolha != 2);
+
+        Veiculo veiculo = new Veiculo(placa, modelo, cor, ano, categoria);
         int disponivel =0;
         StatusDisponibilidade disponibilidade = null;
         do {
@@ -272,7 +290,7 @@ public class Sistema {
         motoristasOnline = usuarios.stream()
                 .filter(u -> u instanceof Motorista)
                 .map(u -> (Motorista) u)
-                .filter(m -> m.getDisponibilidade() && m.getValidadeCnh())
+                .filter(m -> m.getDisponibilidade() && m.getValidadeCnh() && m.getCategoriaVeiculo() instanceof CategoriaComum)
                 .toList();
         if (motoristasOnline.isEmpty()) {
             throw new NenhumMotoristaDisponivelException("\nNenhum motorista disponível no momento.");
@@ -393,7 +411,4 @@ public class Sistema {
         return usuarios;
     }
 
-    public static ArrayList<Corrida> getCorridas() {
-        return corridas;
-    }
 }

@@ -16,10 +16,6 @@ public class Corrida {
         statusCorrida = StatusCorrida.SOLICITADA;
     }
 
-    public boolean getChegou() {
-        return chegou;
-    }
-
     public void imprimir() {
         System.out.println("------ Dados da Corrida ------");
         System.out.println("Origem: " + ORIGEM);
