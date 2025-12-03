@@ -16,12 +16,14 @@ public class Sistema {
         int opcao;
 
         do {
+            System.out.println("{------------------ Ride-Sharing    FGA0158 ------------------}");
             System.out.println("1. Cadastrar Usuário");
             System.out.println("2. Login");
             System.out.println("3. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
-
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("================================================================");
             switch (opcao) {
                 case 1:
                     cadastrarUsuario();
@@ -120,11 +122,12 @@ public class Sistema {
                 cadastraMotorista(dados);
                 break;
         }
-
         System.out.println("Usuário cadastrado com sucesso!");
+        System.out.println("================================================================");
     }
 
     private static void cadastraMotorista(String[] dados) {
+        System.out.println("````````````````````````````````````````````````````````````````");
         System.out.print("Digite o número da CNH: ");
         String numeroCnh = scanner.next();
         System.out.print("Digite a data de validade da CNH: ");
@@ -140,6 +143,7 @@ public class Sistema {
         System.out.print("Digite a placa do veículo: ");
         String placa = scanner.next();
         Veiculo veiculo = new Veiculo(placa, modelo, cor, ano);
+        System.out.println("````````````````````````````````````````````````````````````````");
         int disponivel =0;
         StatusDisponibilidade disponibilidade = null;
         do {
@@ -160,12 +164,14 @@ public class Sistema {
                     System.out.println("Opção inválida.");
             }
         }while(disponivel < 1 || disponivel > 2);
+        System.out.println("````````````````````````````````````````````````````````````````");
         usuarios.add(new Motorista(dados[0], dados[1], dados[2], dados[3], dados[4], veiculo, cnh, disponibilidade));
     }
 
     private static void cadastrarPassageiro(String[] dados) {
         FormaDePagamento pagamento = null;
         int formaDePagamento = 0;
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         do {
             System.out.println("1. Credito");
             System.out.println("2. Dinheiro");
@@ -197,6 +203,7 @@ public class Sistema {
                     break;
             }
         }while (formaDePagamento < 1 || formaDePagamento > 4);
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         usuarios.add(new Passageiro(dados[0], dados[1], dados[2], dados[3], dados[4], pagamento));
     }
 
@@ -235,6 +242,7 @@ public class Sistema {
                 senhaDeConfimarcao = scanner.next();
             }while (!senha.equals(senhaDeConfimarcao));
         }
+        System.out.println("================================================================");
         return new String[]{nome, email, senha, cpf, telefone};
     }
 
@@ -276,6 +284,7 @@ public class Sistema {
         }
         Motorista motorista = adquirirMotorista(corrida,passageiro, motoristasDisponiveis, confirmacao);
         if (motorista == null) return;
+        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         corrida.iniciar();
        while (true) {
            System.out.println("1. Cancelar");
@@ -308,8 +317,10 @@ public class Sistema {
         int opcao;
         Motorista motorista = null;
         for (Motorista i : motoristasDisponiveis) {
+            System.out.println("================================================================");
             System.out.println("Encontramos o motorista: " + i.getNome());
             System.out.println(i.getMediaAvaliacao());
+            System.out.println("================================================================");
             do {
                 System.out.println("Aceita o motorista?");
                 System.out.println("1. Sim");
@@ -317,10 +328,12 @@ public class Sistema {
                 System.out.println("3. Cancelar corrida");
                 System.out.print("Escolha uma opção: ");
                 opcao = scanner.nextInt();
+                System.out.println("================================================================");
                 switch (opcao) {
                     case 1:
-                        System.out.println("O Cliente " + passageiro.getNome() + "está solicitando uma corrida");
+                        System.out.println("O Cliente " + passageiro.getNome() + " está solicitando uma corrida!");
                         System.out.println(passageiro.getMediaAvaliacao());
+                        System.out.println("================================================================");
                         corrida.imprimir();
                         do {
                             System.out.println("Aceita o passageiro?");
@@ -334,7 +347,7 @@ public class Sistema {
                                     motorista = i;
                                     break;
                                 case 2:
-                                    System.out.println("O motorista recusou a corrida");
+                                    System.out.println("O motorista recusou a corrida.");
                                     break;
                                 default:
                                     System.out.println("Opção inválida.");
@@ -345,26 +358,27 @@ public class Sistema {
                     case 2:
                         break;
                     case 3:
-                        System.out.println("Corrida cancelada");
+                        System.out.println("Corrida cancelada.");
                         corrida.cancelar();
                         return null;
                     default:
                         System.out.println("Opção inválida.");
                 }
-
             }while (opcao < 1 || opcao > 3);
+            System.out.println("================================================================");
             if (confirmacao) {
                 break;
             }
         }
         try {
             if (motorista == null) {
-                throw new NenhumMotoristaDisponivelException("Não há mais nenhum motorista disponível");
+                throw new NenhumMotoristaDisponivelException("Não há mais nenhum motorista disponível.");
             }
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
             return null;
         }
+        System.out.println("____________________________________________________________________");
         return motorista;
     }
 

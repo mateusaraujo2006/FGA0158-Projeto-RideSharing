@@ -29,7 +29,7 @@ public abstract class Usuario {
 
     public String getMediaAvaliacao() {
         if (avaliacoes.isEmpty()) {
-            return nome + "ainda não foi avaliada.";
+            return nome + " ainda não foi avaliado.";
         }
         int soma = 0;
         for (Avaliacao av : avaliacoes) {
