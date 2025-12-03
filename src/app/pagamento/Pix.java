@@ -24,6 +24,10 @@ public class Pix implements FormaDePagamento {
         return this.chavePix;
     }
 
+    public boolean foiPago() {
+        return this.pagamentoConfirmado;
+    }
+
 
     @Override
     public void processarPagamento(double valorDebitado) {
