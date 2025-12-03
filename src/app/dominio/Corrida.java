@@ -35,6 +35,7 @@ public class Corrida {
 
     public void iniciar(Motorista motorista) {
         statusCorrida = StatusCorrida.EM_ANDAMENTO;
+        motorista.setStatusDisponibilidade(StatusDisponibilidade.EM_CORRIDA);
         System.out.println("Corrida Iniciada.");
         new Thread(() -> {
             try {
