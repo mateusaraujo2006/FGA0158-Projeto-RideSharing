@@ -41,7 +41,6 @@ public class Corrida {
                 Thread.sleep(25000); // 25 segundos
                 this.chegou = true;
                 System.out.println("\nO veiculo chegou a:" + DESTINO);
-                motorista.setStatusDisponibilidade(StatusDisponibilidade.ONLINE);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.err.println("A corrida foi interrompida.");
