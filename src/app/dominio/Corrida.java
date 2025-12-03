@@ -37,7 +37,7 @@ public class Corrida {
             try {
                 Thread.sleep(25000); // 25 segundos
                 this.chegou = true;
-                System.out.println("O veiculo chegou a:" + DESTINO);
+                System.out.println("\nO veiculo chegou a:" + DESTINO);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.err.println("A corrida foi interrompida.");
@@ -48,7 +48,7 @@ public class Corrida {
     public void finalizar() {
         try {
             if (!chegou) {
-                throw new EstadoInvalidoDaCorridaException("O veiculo não chegou em " + DESTINO);
+                throw new EstadoInvalidoDaCorridaException("\nO veiculo não chegou em " + DESTINO);
             }
         } catch (EstadoInvalidoDaCorridaException e) {
             System.out.println(e.getMessage());

@@ -144,6 +144,7 @@ public class Passageiro extends Usuario {
     public void realizarPagamento(double valor) {
         try {
             pagamento.processarPagamento(valor);
+            setDivida(0);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             setDivida(valor);
