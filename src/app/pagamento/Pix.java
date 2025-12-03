@@ -22,10 +22,6 @@ public class Pix implements FormaDePagamento {
         return this.chavePix;
     }
 
-    // Informa se o último pagamento via PIX foi confirmado
-    public boolean foiPago() {
-        return this.pagamentoConfirmado;
-    }
 
     @Override
     public boolean processarPagamento(double valorDebitado) {

@@ -1,11 +1,11 @@
 package app.pagamento;
 
 public class Debito implements FormaDePagamento {
-    private CadastroCartao Cartao;
+    private CadastroCartao cartao;
     private double ValorEmConta;
 
     public Debito(CadastroCartao cartao, double saldoInicial) {
-        this.Cartao = cartao;
+        this.cartao = cartao;
         this.ValorEmConta = cartao.getSaldo();
     }
 
