@@ -22,14 +22,14 @@ public class Passageiro extends Usuario {
     public void login() {
         char resp;
         do {
-            System.out.println("===============================");
+            System.out.println("================================================================");
             System.out.println("A. Solicitar corrida");
             System.out.println("B. Mudar dados pessoais");
             System.out.println("C. Mudar forma de pagamento");
             System.out.println("D. Informações da conta");
             System.out.println("E. Logout");
             if (divida > 0) System.out.println("F. Pagar dívida - R$" + divida);
-            System.out.println("===============================");
+            System.out.println("================================================================");
             System.out.print("Escolha a sua opção de ação que desejar: ");
             resp = input.next().toUpperCase().charAt(0);
             input.nextLine();
@@ -69,6 +69,7 @@ public class Passageiro extends Usuario {
             }
 
         } while (resp != 'E');
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         input.close(); // limpeza de buffer
     }
 
@@ -117,19 +118,23 @@ public class Passageiro extends Usuario {
         Categoria categoria = null;
         int opc;
         do {
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("Informe a sua categoria: ");
             System.out.println("1. Comum");
             System.out.println("2. Luxo");
             System.out.print  ("Escolha: ");
             opc = input.nextInt();
+
             switch (opc) {
                 case 1 -> categoria = new CategoriaComum();
                 case 2 -> categoria = new CategoriaLuxo();
                 default -> System.out.println("Opção Invalída. Tente novamente.");
             }
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
         } while (opc != 1 && opc != 2);
         input.nextLine(); // limpeza de buffer
+        System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
         Sistema.processarCorrida(new Corrida(origem, destino, categoria), this);
     }
 
