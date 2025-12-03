@@ -13,7 +13,7 @@ public class Sistema {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        int opcao;
+        char opcao;
 
         do {
             System.out.println("{------------------ Ride-Sharing    FGA0158 ------------------}");
@@ -21,23 +21,23 @@ public class Sistema {
             System.out.println("2. Login");
             System.out.println("3. Sair");
             System.out.print("Escolha uma opção: ");
-            opcao = scanner.nextInt();
+            opcao = scanner.next().charAt(0);
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("================================================================");
             switch (opcao) {
-                case 1:
+                case '1':
                     cadastrarUsuario();
                     break;
-                case 2:
+                case '2':
                     Usuario.verificadorDeSeguranca().login();
                     break;
-                case 3:
+                case '3':
                     System.out.println("Saindo do sistema...");
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
-        } while (opcao != 3);
+        } while (opcao != '3');
 
         scanner.close();
     }
@@ -107,18 +107,18 @@ public class Sistema {
 
         String[] dados;
         dados = adquirirDadosComuns();
-        int tipoDeUsuario;
+        char tipoDeUsuario;
         System.out.println("1. Passageiro");
         System.out.println("2. Motorista");
         System.out.print(" Digite o tipo de usuário: ");
-        tipoDeUsuario = scanner.nextInt();
+        tipoDeUsuario = scanner.next().charAt(0);
         
         switch (tipoDeUsuario) {
             
-            case 1:
+            case '1':
                 cadastrarPassageiro(dados);
                 break;
-            case 2:
+            case '2':
                 cadastraMotorista(dados);
                 break;
         }
@@ -144,55 +144,55 @@ public class Sistema {
         String placa = scanner.next();
 
         Categoria categoria = null;
-        int escolha;
+        char escolha;
         do {
             System.out.println("Digite a categoria do veículo (Comum ou luxo): ");
             System.out.println("1. Comum");
             System.out.println("2. Luxo");
             System.out.print("Escolha uma opção: ");
-            escolha = scanner.nextInt();
+            escolha = scanner.next().charAt(0);
             switch (escolha) {
-                case 1:
+                case '1':
                     categoria = new CategoriaComum();
                     break;
-                case 2:
+                case '2':
                     categoria = new CategoriaLuxo();
                     break;
                 default:
                     System.out.println("Opção inválida.");
             }
 
-        }while (escolha != 1 && escolha != 2);
+        }while (escolha != '1' && escolha != '2');
 
         Veiculo veiculo = new Veiculo(placa, modelo, cor, ano, categoria);
         System.out.println("````````````````````````````````````````````````````````````````");
-        int disponivel;
+        char disponivel;
         StatusDisponibilidade disponibilidade = null;
         do {
             System.out.println("O motorista pode começar a trabalhar agora?");
             System.out.println("1. Sim");
             System.out.println("2. Não");
             System.out.print("Escolha uma opção: ");
-            disponivel = scanner.nextInt();
+            disponivel = scanner.next().charAt(0);
 
             switch (disponivel) {
-                case 1:
+                case '1':
                     disponibilidade = StatusDisponibilidade.ONLINE;
                     break;
-                case 2:
+                case '2':
                     disponibilidade = StatusDisponibilidade.OFFLINE;
                     break;
                 default:
                     System.out.println("Opção inválida.");
             }
-        }while(disponivel < 1 || disponivel > 2);
+        }while(disponivel != '1' && disponivel != '2');
         System.out.println("````````````````````````````````````````````````````````````````");
         usuarios.add(new Motorista(dados[0], dados[1], dados[2], dados[3], dados[4], veiculo, cnh, disponibilidade));
     }
 
     private static void cadastrarPassageiro(String[] dados) {
         FormaDePagamento pagamento = null;
-        int formaDePagamento;
+        char formaDePagamento;
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         do {
             System.out.println("1. Credito");
@@ -200,22 +200,22 @@ public class Sistema {
             System.out.println("3. Pix");
             System.out.println("4. Debito");
             System.out.print("Escolha a forma de pagamento que irá usar: ");
-            formaDePagamento = scanner.nextInt();
+            formaDePagamento = scanner.next().charAt(0);
             switch (formaDePagamento) {
-                case 1:
+                case '1':
                     pagamento = new Credito(cadastrarCartao());
                     break;
-                case 2:
+                case '2':
                     System.out.print("Digite o dinheiro disponível: ");
                     double dinheiro = scanner.nextDouble();
                     pagamento = new Dinheiro(dinheiro);
                     break;
-                case 3:
+                case '3':
                     System.out.print("Digite o valor na conta: ");
                     double valorNaConta = scanner.nextDouble();
                     pagamento = new Pix(valorNaConta);
                     break;
-                case 4:
+                case '4':
                     System.out.println("Digite o seu saldo inicial: ");
                     double saldoInicial = scanner.nextDouble();
                     pagamento = new Debito(cadastrarCartao(), saldoInicial);
@@ -224,7 +224,7 @@ public class Sistema {
                     System.out.println("Opção de pagamento inválida.");
                     break;
             }
-        }while (formaDePagamento < 1 || formaDePagamento > 4);
+        }while (formaDePagamento != '1' && formaDePagamento != '2' && formaDePagamento != '3' && formaDePagamento != '4');
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         usuarios.add(new Passageiro(dados[0], dados[1], dados[2], dados[3], dados[4], pagamento));
     }
@@ -233,7 +233,7 @@ public class Sistema {
         String cpf;
         while (true) {
             try {
-                System.out.print("Digite o CPF: ");
+                System.out.print("Digite o CPF(Somente números): ");
                 cpf = scanner.next();
                 validadorDeCpf(cpf);
                 break;
@@ -295,7 +295,7 @@ public class Sistema {
     public static void processarCorrida(Corrida corrida, Passageiro passageiro) {
         corridas.add(corrida);
         corrida.imprimir();
-        int opcao;
+        char opcao;
         boolean confirmacao = false;
         List<Motorista> motoristasDisponiveis;
         try {
@@ -313,17 +313,17 @@ public class Sistema {
            System.out.println("2. Finalizar");
            System.out.println("3. Realizar Pagamento");
            System.out.print("Escolha uma opção: ");
-           opcao = scanner.nextInt();
+           opcao = scanner.next().charAt(0);
            switch (opcao) {
-               case 1:
+               case '1':
                    if (corrida.cancelar()) {
                        return;
                    }
                    break;
-               case 2:
+               case '2':
                    corrida.finalizar(motorista);
                    break;
-               case 3:
+               case '3':
                    if (corrida.verificarEstadoParaPagar()) {
                        passageiro.realizarPagamento(corrida.calcularPreco());
                        return;
@@ -336,7 +336,7 @@ public class Sistema {
     }
 
     private static Motorista adquirirMotorista(Corrida corrida, Passageiro passageiro, List<Motorista> motoristasDisponiveis, boolean confirmacao) {
-        int opcao;
+        char opcao;
         Motorista motorista = null;
         for (Motorista i : motoristasDisponiveis) {
             System.out.println("================================================================");
@@ -349,45 +349,46 @@ public class Sistema {
                 System.out.println("2. Não");
                 System.out.println("3. Cancelar corrida");
                 System.out.print("Escolha uma opção: ");
-                opcao = scanner.nextInt();
+                opcao = scanner.next().charAt(0);
                 System.out.println("================================================================");
                 switch (opcao) {
-                    case 1:
+                    case '1':
                         System.out.println("O Cliente " + passageiro.getNome() + " está solicitando uma corrida!");
                         System.out.println(passageiro.getMediaAvaliacao());
                         System.out.println("================================================================");
                         corrida.imprimir();
+                        char opcao2;
                         do {
                             System.out.println("Aceita o passageiro?");
                             System.out.println("1. Sim");
                             System.out.println("2. Não");
                             System.out.print("Escolha uma opção: ");
-                            opcao = scanner.nextInt();
-                            switch (opcao) {
-                                case 1:
+                            opcao2 = scanner.next().charAt(0);
+                            switch (opcao2) {
+                                case '1':
                                     confirmacao = true;
                                     motorista = i;
                                     i.setStatusDisponibilidade(StatusDisponibilidade.EM_CORRIDA);
                                     break;
-                                case 2:
+                                case '2':
                                     System.out.println("O motorista recusou a corrida.");
                                     break;
                                 default:
                                     System.out.println("Opção inválida.");
                             }
 
-                        }while (opcao < 1 || opcao > 3);
+                        } while (opcao2 != '1' && opcao2 != '2');
                         break;
-                    case 2:
+                    case '2':
                         break;
-                    case 3:
+                    case '3':
                         System.out.println("Corrida cancelada.");
                         corrida.cancelar();
                         return null;
                     default:
                         System.out.println("Opção inválida.");
                 }
-            }while (opcao < 1 || opcao > 3);
+            }while (opcao != '1' && opcao != '2');
             System.out.println("================================================================");
             if (confirmacao) {
                 break;

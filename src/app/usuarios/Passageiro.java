@@ -72,7 +72,7 @@ public class Passageiro extends Usuario {
     }
 
     public static void mudarFormaDePagamento(Passageiro p) {
-        int resp;
+        char resp;
         do {
             System.out.println("==============================");
             System.out.println("1. Credito");
@@ -81,22 +81,22 @@ public class Passageiro extends Usuario {
             System.out.println("4. Debito");
             System.out.println("===============================");
             System.out.print  ("Escolha a forma de pagamento que irá usar: ");
-            resp = input.nextInt();
+            resp = input.next().charAt(0);
             switch (resp) {
-                case 1:
+                case '1':
                     p.setPagamento(new Credito(Sistema.cadastrarCartao()));
                     break;
-                case 2:
+                case '2':
                     System.out.print("Digite o dinheiro disponível: ");
                     double dinheiro = input.nextDouble();
                     p.setPagamento(new Dinheiro(dinheiro));
                     break;
-                case 3:
+                case '3':
                     System.out.print("Digite o valor na conta: ");
                     double valorNaConta = input.nextDouble();
                     p.setPagamento(new Pix(valorNaConta));
                     break;
-                case 4:
+                case '4':
                     System.out.println("Digite o seu saldo inicial: ");
                     double saldoInicial = input.nextDouble();
                     p.setPagamento(new Debito(Sistema.cadastrarCartao(), saldoInicial));
@@ -104,7 +104,7 @@ public class Passageiro extends Usuario {
                 default:
                     System.out.println("Opção invalída. Tente novamente.");
                 }
-            } while (resp < 1 || resp > 4);
+            } while (resp != '1' && resp != '2' && resp != '3' && resp != '4');
     }
 
     public void solicitarCorrida() {

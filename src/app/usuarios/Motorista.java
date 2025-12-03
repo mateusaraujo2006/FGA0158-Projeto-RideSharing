@@ -118,26 +118,26 @@ public class Motorista extends Usuario {
         System.out.print("digite o ano do veículo: ");
         int novoAno = input.nextInt();
         input.nextLine();
-        int escolha;
+        char escolha;
         Categoria novaCategoria = null;
         do {
             System.out.println("Digite a categoria do veículo (Comum ou luxo): ");
             System.out.println("1. Comum");
             System.out.println("2. Luxo");
             System.out.print("Escolha uma opção: ");
-            escolha = input.nextInt();
+            escolha = input.next().charAt(0);
             switch (escolha) {
-                case 1:
+                case '1':
                     novaCategoria = new CategoriaComum();
                     break;
-                case 2:
+                case '2':
                     novaCategoria = new CategoriaLuxo();
                     break;
                 default:
                     System.out.println("Opção inválida.");
             }
 
-        } while (escolha != 1 && escolha != 2);
+        } while (escolha != '1' && escolha != '2');
         input.nextLine();
 
         veiculo = new Veiculo(novoModelo, novaPlaca, novaCor, novoAno, novaCategoria);
