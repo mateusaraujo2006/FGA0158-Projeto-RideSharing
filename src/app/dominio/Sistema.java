@@ -285,12 +285,12 @@ public class Sistema {
         String codigoSeguranca = scanner.next();
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
-    public static List<Motorista> procurarMotoristas() {
+    public static List<Motorista> procurarMotoristas(String categoria) {
         List<Motorista> motoristasOnline = null;
         motoristasOnline = usuarios.stream()
                 .filter(u -> u instanceof Motorista)
                 .map(u -> (Motorista) u)
-                .filter(m -> m.getDisponibilidade() && m.getValidadeCnh() && m.getCategoriaVeiculo() instanceof CategoriaComum)
+                .filter(m -> m.getDisponibilidade() && m.getValidadeCnh() && m.getCategoriaVeiculo().equals(categoria))
                 .toList();
         if (motoristasOnline.isEmpty()) {
             throw new NenhumMotoristaDisponivelException("\nNenhum motorista disponível no momento.");
@@ -305,7 +305,7 @@ public class Sistema {
 
         List<Motorista> motoristasDisponiveis = null;
         try {
-            motoristasDisponiveis = procurarMotoristas();
+            motoristasDisponiveis = procurarMotoristas(corrida.getCATEGORIA());
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
             return;

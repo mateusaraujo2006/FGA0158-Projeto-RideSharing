@@ -88,4 +88,8 @@ public class Corrida {
         }
         return true;
     }
+
+    public String getCATEGORIA() {
+        return CATEGORIA instanceof CategoriaComum ? "Comum" : "Luxo";
+    }
 }

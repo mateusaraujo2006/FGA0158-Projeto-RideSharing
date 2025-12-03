@@ -30,7 +30,7 @@ public class Motorista extends Usuario {
         }
         return false;
     }
-    public Categoria getCategoriaVeiculo() {
+    public String getCategoriaVeiculo() {
         return  veiculo.getCategoria();
     }
 
