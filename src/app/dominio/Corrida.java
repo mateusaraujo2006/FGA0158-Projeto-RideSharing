@@ -23,12 +23,11 @@ public class Corrida {
         System.out.println("Distância: " + distancia);
         System.out.println("Categoria: " + CATEGORIA.getNome());
         System.out.println("Preço: " + calcularPreco());
-        System.out.println("------------------------------");
     }
     
 
     private void calcularDistancia() {
-        this.distancia = Math.round((1 + (Math.random() * 999) * 100) / 100.0);
+        this.distancia = 1 + (Math.random() * 999);
     }
 
     public void iniciar() {
@@ -74,9 +73,7 @@ public class Corrida {
     }
 
     public double calcularPreco() {
-        double valor = CATEGORIA.calcularPreco(distancia);
-        valor = Math.round(valor * 100) / 100.0;
-        return valor;
+        return CATEGORIA.calcularPreco(distancia);
     }
 
     public boolean verificarEstadoParaPagar() {
