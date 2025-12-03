@@ -142,7 +142,29 @@ public class Sistema {
         int ano = scanner.nextInt();
         System.out.print("Digite a placa do veículo: ");
         String placa = scanner.next();
-        Veiculo veiculo = new Veiculo(placa, modelo, cor, ano);
+
+        Categoria categoria = null;
+        int escolha;
+        do {
+            System.out.println("Digite a categoria do veículo (Comum ou luxo): ");
+            System.out.println("1. Comum");
+            System.out.println("2. Luxo");
+            System.out.print("Escolha uma opção: ");
+            escolha = scanner.nextInt();
+            switch (escolha) {
+                case 1:
+                    categoria = new CategoriaComum();
+                    break;
+                case 2:
+                    categoria = new CategoriaLuxo();
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+
+        }while (escolha != 1 && escolha != 2);
+
+        Veiculo veiculo = new Veiculo(placa, modelo, cor, ano, categoria);
         System.out.println("````````````````````````````````````````````````````````````````");
         int disponivel =0;
         StatusDisponibilidade disponibilidade = null;
@@ -257,12 +279,12 @@ public class Sistema {
         String codigoSeguranca = scanner.next();
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
-    public static List<Motorista> procurarMotoristas() {
+    public static List<Motorista> procurarMotoristas(String categoria) {
         List<Motorista> motoristasOnline = null;
         motoristasOnline = usuarios.stream()
                 .filter(u -> u instanceof Motorista)
                 .map(u -> (Motorista) u)
-                .filter(m -> m.getDisponibilidade() && m.getValidadeCnh())
+                .filter(m -> m.getDisponibilidade() && m.getValidadeCnh() && m.getCategoriaVeiculo().equals(categoria))
                 .toList();
         if (motoristasOnline.isEmpty()) {
             throw new NenhumMotoristaDisponivelException("\nNenhum motorista disponível no momento.");
@@ -277,7 +299,7 @@ public class Sistema {
         boolean confirmacao = false;
         List<Motorista> motoristasDisponiveis = null;
         try {
-            motoristasDisponiveis = procurarMotoristas();
+            motoristasDisponiveis = procurarMotoristas(corrida.getCATEGORIA());
         } catch (NenhumMotoristaDisponivelException e) {
             System.out.println(e.getMessage());
             return;

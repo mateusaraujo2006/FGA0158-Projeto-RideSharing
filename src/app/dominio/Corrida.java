@@ -27,7 +27,7 @@ public class Corrida {
     
 
     private void calcularDistancia() {
-        this.distancia = 1 + (Math.random() * 999);
+        this.distancia = Math.round((1 + (Math.random() * 999) * 100) / 100.0);
     }
 
     public void iniciar() {
@@ -73,7 +73,7 @@ public class Corrida {
     }
 
     public double calcularPreco() {
-        return CATEGORIA.calcularPreco(distancia);
+        return Math.round((CATEGORIA.calcularPreco(distancia)) * 100 / 100.0);
     }
 
     public boolean verificarEstadoParaPagar() {
