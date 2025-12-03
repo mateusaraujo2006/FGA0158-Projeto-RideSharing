@@ -23,6 +23,14 @@ public abstract class Usuario {
 
     }
 
+    public void receberAvaliacao(){
+        int nota;
+        System.out.print("Quantas estrelas você dá para " + nome + "(1 a 5): ");
+        nota = scanner.nextInt();
+        avaliacoes.add(new Avaliacao(nota));
+    }
+
+
     public String getNome() {
         return nome;
     }
@@ -35,7 +43,8 @@ public abstract class Usuario {
         for (Avaliacao av : avaliacoes) {
             soma += av.getNota();
         }
-        return nome + " tem uma média de " + soma/avaliacoes.size() + " estrelas.";
+        String media = String.format("%.1f", (float) soma / avaliacoes.size());
+        return nome + " tem uma média de " + media + " estrelas.";
     }
 
     public abstract void login();

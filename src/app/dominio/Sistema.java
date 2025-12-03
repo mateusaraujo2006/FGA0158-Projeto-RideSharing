@@ -51,7 +51,7 @@ public class Sistema {
         cpf = cpf.replaceAll("[^0-9]", "");
 
         if (cpf.length() != 11) {
-            throw new InputMismatchException("CPF deve ter 11 dígitos.");
+            throw new InputMismatchException("CPF deve ter 11 dígitos numéricos.");
         }
 
         if (cpf.matches("(\\d)\\1{10}")) {
@@ -101,6 +101,15 @@ public class Sistema {
         }
     }
 
+    public static void validadorDeCnh(String cnh) {
+        if (!cnh.matches("[0-9]+")) {
+            throw new InputMismatchException("CNH deve conter apenas números.");
+        }
+        if (cnh.length() != 9) {
+            throw new InputMismatchException("CNH deve ter 9 dígitos.");
+        }
+    }
+
     public static void cadastrarUsuario() {
 
         String[] dados;
@@ -125,8 +134,17 @@ public class Sistema {
     }
 
     private static void cadastraMotorista(String[] dados) {
-        System.out.print("Digite o número da CNH: ");
-        String numeroCnh = scanner.next();
+        String numeroCnh;
+        while (true) {
+            try {
+                System.out.print("Digite o número da CNH: ");
+                numeroCnh = scanner.next();
+                validadorDeCnh(numeroCnh);
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage() + " Tente novamente.");
+            }
+        }
         System.out.print("Digite a data de validade da CNH: ");
         String categoriaCnh = scanner.next();
         Cnh cnh = new Cnh(numeroCnh, categoriaCnh);
@@ -266,7 +284,7 @@ public class Sistema {
         corridas.add(corrida);
         corrida.imprimir();
         int opcao = 0;
-        boolean confirmacao = false;
+
         List<Motorista> motoristasDisponiveis = null;
         try {
             motoristasDisponiveis = procurarMotoristas();
@@ -274,7 +292,7 @@ public class Sistema {
             System.out.println(e.getMessage());
             return;
         }
-        Motorista motorista = adquirirMotorista(corrida,passageiro, motoristasDisponiveis, confirmacao);
+        Motorista motorista = adquirirMotorista(corrida,passageiro, motoristasDisponiveis);
         if (motorista == null) return;
         corrida.iniciar();
        while (true) {
@@ -291,6 +309,8 @@ public class Sistema {
                    break;
                case 2:
                    corrida.finalizar();
+                   passageiro.receberAvaliacao();
+                   motorista.receberAvaliacao();
                    break;
                case 3:
                    if (corrida.verificarEstadoParaPagar()) {
@@ -304,8 +324,9 @@ public class Sistema {
        }
     }
 
-    private static Motorista adquirirMotorista(Corrida corrida, Passageiro passageiro, List<Motorista> motoristasDisponiveis, boolean confirmacao) {
+    private static Motorista adquirirMotorista(Corrida corrida, Passageiro passageiro, List<Motorista> motoristasDisponiveis) {
         int opcao;
+        boolean confirmacao = false;
         Motorista motorista = null;
         for (Motorista i : motoristasDisponiveis) {
             System.out.println("Encontramos o motorista: " + i.getNome());
