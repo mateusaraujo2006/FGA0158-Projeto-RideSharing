@@ -1,5 +1,7 @@
 package app.pagamento;
 
+import app.excecoes.SaldoInsuficienteException;
+
 public class Pix implements FormaDePagamento {
     private double DinheironaConta;
     private String chavePix;
@@ -24,17 +26,15 @@ public class Pix implements FormaDePagamento {
 
 
     @Override
-    public boolean processarPagamento(double valorDebitado) {
+    public void processarPagamento(double valorDebitado) {
         
         if (valorDebitado <= DinheironaConta) {
             DinheironaConta -= valorDebitado;
             pagamentoConfirmado = true;
             System.out.println("Pagamento realizado com sucesso");
-            return true;
         }
         pagamentoConfirmado = false;
-        System.out.println("Pagamento recusado: saldo insuficiente.");
-        return false;
+        throw new SaldoInsuficienteException("Você não possui saldo suficiente para realizar o pagamento!");
     }
 
     @Override

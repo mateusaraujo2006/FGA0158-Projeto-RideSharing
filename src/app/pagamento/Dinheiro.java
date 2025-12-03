@@ -1,21 +1,22 @@
 package app.pagamento;
 
+import app.excecoes.SaldoInsuficienteException;
+
 public class Dinheiro implements FormaDePagamento {
-    private double DinheiroDisponivel;
+    private double dinheiroDisponivel;
 
     public Dinheiro(double dinheiroDisponivel) {
-        DinheiroDisponivel = dinheiroDisponivel;
+        this.dinheiroDisponivel = dinheiroDisponivel;
     }
 
     @Override
-    public boolean processarPagamento(double valorDebitado) {
-        if (valorDebitado <= DinheiroDisponivel) {
+    public void processarPagamento(double valorDebitado) {
+        if (valorDebitado <= dinheiroDisponivel) {
             System.out.println("Pagamento concluído");
-            return true;
+            dinheiroDisponivel -= valorDebitado;
         }
         else {
-            System.out.println("Pagamento da corrida pendente!");
-            return false;
+            throw new SaldoInsuficienteException("Você não possui dinheiro suficiente para realizar o pagamento!");
         }
 
 
