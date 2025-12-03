@@ -21,6 +21,21 @@ public class CadastroCartao {
 
     }
 
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public String getNomeTitular() {
+        return nomeTitular;
+    }
+
+    public YearMonth getDataValidade() {
+        return dataValidade;
+    }
+
+    public String getCodigoSeguranca() {
+        return codigoSeguranca;
+    }
 
     public double getSaldo() {
         return saldo;

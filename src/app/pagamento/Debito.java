@@ -1,5 +1,8 @@
 package app.pagamento;
 
+import app.excecoes.PagamentoRecusadoException;
+import app.excecoes.SaldoInsuficienteException;
+
 public class Debito implements FormaDePagamento {
     private CadastroCartao cartao;
     private double ValorEmConta;
@@ -10,15 +13,13 @@ public class Debito implements FormaDePagamento {
     }
 
     @Override
-    public boolean processarPagamento(double valorDebitado) {
+    public void processarPagamento(double valorDebitado) {
         if (valorDebitado <= ValorEmConta) {
             ValorEmConta -= valorDebitado;
             System.out.println("Pagamento realizado com sucesso!");
-            return true;
         }
         else {
-            System.out.println("Pagamento recusado: saldo insuficiente.");
-            return false;
+            throw new PagamentoRecusadoException("O cartão recusou o pagamento!");
         }
     }
 

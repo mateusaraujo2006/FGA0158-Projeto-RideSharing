@@ -143,15 +143,12 @@ public class Passageiro extends Usuario {
     }
     public void realizarPagamento(double valor) {
         try {
-            if (!pagamento.processarPagamento(valor)) {
-                setDivida(valor);
-                throw new PagamentoRecusadoException("Pagamento recusado devido a saldo insuficiente!");
-            } else {
-                setDivida(0);
-            }
-        } catch (PagamentoRecusadoException e) {
+            pagamento.processarPagamento(valor);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
+            setDivida(valor);
         }
+
     }
     public void setPagamento(FormaDePagamento pagamento) {
         this.pagamento = pagamento;
