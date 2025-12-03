@@ -166,7 +166,7 @@ public class Sistema {
 
         Veiculo veiculo = new Veiculo(placa, modelo, cor, ano, categoria);
         System.out.println("````````````````````````````````````````````````````````````````");
-        int disponivel =0;
+        int disponivel;
         StatusDisponibilidade disponibilidade = null;
         do {
             System.out.println("O motorista pode começar a trabalhar agora?");
@@ -192,7 +192,7 @@ public class Sistema {
 
     private static void cadastrarPassageiro(String[] dados) {
         FormaDePagamento pagamento = null;
-        int formaDePagamento = 0;
+        int formaDePagamento;
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         do {
             System.out.println("1. Credito");
@@ -250,19 +250,19 @@ public class Sistema {
         String telefone;
         System.out.print("Digite o telefone: ");
         telefone = scanner.next();
-        String senha, senhaDeConfimarcao;
+        String senha, senhaDeConfirmacao;
         System.out.print("Digite a senha: ");
         senha = scanner.next();
         System.out.print("Confirme a senha: ");
-        senhaDeConfimarcao = scanner.next();
-        if (!senha.equals(senhaDeConfimarcao)) {
+        senhaDeConfirmacao = scanner.next();
+        if (!senha.equals(senhaDeConfirmacao)) {
             do {
                 System.out.println("As senhas não coincidem. Tente novamente.");
                 System.out.print("Digite a senha: ");
                 senha = scanner.next();
                 System.out.print("Confirme a senha: ");
-                senhaDeConfimarcao = scanner.next();
-            }while (!senha.equals(senhaDeConfimarcao));
+                senhaDeConfirmacao = scanner.next();
+            }while (!senha.equals(senhaDeConfirmacao));
         }
         System.out.println("================================================================");
         return new String[]{nome, email, senha, cpf, telefone};
@@ -280,7 +280,7 @@ public class Sistema {
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
     public static List<Motorista> procurarMotoristas(String categoria) {
-        List<Motorista> motoristasOnline = null;
+        List<Motorista> motoristasOnline;
         motoristasOnline = usuarios.stream()
                 .filter(u -> u instanceof Motorista)
                 .map(u -> (Motorista) u)
@@ -295,9 +295,9 @@ public class Sistema {
     public static void processarCorrida(Corrida corrida, Passageiro passageiro) {
         corridas.add(corrida);
         corrida.imprimir();
-        int opcao = 0;
+        int opcao;
         boolean confirmacao = false;
-        List<Motorista> motoristasDisponiveis = null;
+        List<Motorista> motoristasDisponiveis;
         try {
             motoristasDisponiveis = procurarMotoristas(corrida.getCATEGORIA());
         } catch (NenhumMotoristaDisponivelException e) {
@@ -367,6 +367,7 @@ public class Sistema {
                                 case 1:
                                     confirmacao = true;
                                     motorista = i;
+                                    i.setStatusDisponibilidade(StatusDisponibilidade.EM_CORRIDA);
                                     break;
                                 case 2:
                                     System.out.println("O motorista recusou a corrida.");
@@ -408,7 +409,4 @@ public class Sistema {
         return usuarios;
     }
 
-    public static ArrayList<Corrida> getCorridas() {
-        return corridas;
-    }
 }
