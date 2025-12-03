@@ -38,7 +38,7 @@ public class Corrida {
         System.out.println("Corrida Iniciada.");
         new Thread(() -> {
             try {
-                Thread.sleep(25000); // 25 segundos
+                Thread.sleep(15000); // 15 segundos
                 this.chegou = true;
                 System.out.println("\nO veiculo chegou a:" + DESTINO);
             } catch (InterruptedException e) {
@@ -48,18 +48,19 @@ public class Corrida {
         }).start();
     }
 
-    public void finalizar(Motorista motorista) {
+    public boolean finalizar(Motorista motorista) {
         try {
             if (!chegou) {
                 throw new EstadoInvalidoDaCorridaException("\nO veiculo não chegou em " + DESTINO);
             }
         } catch (EstadoInvalidoDaCorridaException e) {
             System.out.println(e.getMessage());
-            return;
+            return false;
         }
         statusCorrida = StatusCorrida.FINALIZADA;
         motorista.setStatusDisponibilidade(StatusDisponibilidade.ONLINE);
         System.out.println("Corrida Finalizada.");
+        return true;
     }
 
     public boolean cancelar() {

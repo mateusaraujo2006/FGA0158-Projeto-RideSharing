@@ -37,8 +37,10 @@ public class Pix implements FormaDePagamento {
             pagamentoConfirmado = true;
             System.out.println("Pagamento realizado com sucesso");
         }
-        pagamentoConfirmado = false;
-        throw new SaldoInsuficienteException("Você não possui saldo suficiente para realizar o pagamento!");
+        else {
+            pagamentoConfirmado = false;
+            throw new SaldoInsuficienteException("Você não possui saldo suficiente para realizar o pagamento!");
+        }
     }
 
     @Override

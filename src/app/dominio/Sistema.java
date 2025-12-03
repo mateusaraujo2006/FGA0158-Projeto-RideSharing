@@ -225,6 +225,7 @@ public class Sistema {
                     break;
             }
         }while (formaDePagamento != '1' && formaDePagamento != '2' && formaDePagamento != '3' && formaDePagamento != '4');
+        scanner.nextLine();
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         usuarios.add(new Passageiro(dados[0], dados[1], dados[2], dados[3], dados[4], pagamento));
     }
@@ -235,6 +236,7 @@ public class Sistema {
             try {
                 System.out.print("Digite o CPF(Somente números): ");
                 cpf = scanner.next();
+                scanner.nextLine();
                 validadorDeCpf(cpf);
                 break;
             } catch (InputMismatchException e) {
@@ -321,7 +323,10 @@ public class Sistema {
                    }
                    break;
                case '2':
-                   corrida.finalizar(motorista);
+                   if (corrida.finalizar(motorista)) {
+                       motorista.receberAvaliacao();
+                       passageiro.receberAvaliacao();
+                   }
                    break;
                case '3':
                    if (corrida.verificarEstadoParaPagar()) {
