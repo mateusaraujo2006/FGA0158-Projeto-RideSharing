@@ -103,6 +103,15 @@ public class Sistema {
         }
     }
 
+    public static void validadorDeCnh(String cnh) {
+        if (!cnh.matches("[0-9]+")) {
+            throw new InputMismatchException("CNH deve conter apenas números.");
+        }
+        if (cnh.length() != 9) {
+            throw new InputMismatchException("CNH deve ter 9 dígitos.");
+        }
+    }
+
     public static void cadastrarUsuario() {
 
         String[] dados;
@@ -119,17 +128,26 @@ public class Sistema {
                 cadastrarPassageiro(dados);
                 break;
             case '2':
-                cadastraMotorista(dados);
+                cadastrarMotorista(dados);
                 break;
         }
         System.out.println("Usuário cadastrado com sucesso!");
         System.out.println("================================================================");
     }
 
-    private static void cadastraMotorista(String[] dados) {
+    private static void cadastrarMotorista(String[] dados) {
         System.out.println("````````````````````````````````````````````````````````````````");
-        System.out.print("Digite o número da CNH: ");
-        String numeroCnh = scanner.next();
+        String numeroCnh;
+        while (true) {
+            try {
+                System.out.print("Digite o número da CNH: ");
+                numeroCnh = scanner.next();
+                validadorDeCnh(numeroCnh);
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println(e.getMessage() + " Tente novamente.");
+            }
+        }
         System.out.print("Digite a data de validade da CNH: ");
         String categoriaCnh = scanner.next();
         Cnh cnh = new Cnh(numeroCnh, categoriaCnh);
@@ -281,7 +299,7 @@ public class Sistema {
         String codigoSeguranca = scanner.next();
         return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
-    public static List<Motorista> procurarMotoristas(String categoria) {
+    private static List<Motorista> procurarMotoristas(String categoria) {
         List<Motorista> motoristasOnline;
         motoristasOnline = usuarios.stream()
                 .filter(u -> u instanceof Motorista)
