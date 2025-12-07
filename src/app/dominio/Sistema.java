@@ -296,7 +296,7 @@ public class Sistema {
             try {
                 System.out.print("Digite o CPF(Somente números): ");
                 cpf = scanner.next();
-                scanner.nextLine();
+                scanner.nextLine(); // Limpeza de buffer
                 validadorDeCpf(cpf);
                 break;
             } catch (InputMismatchException e) {
@@ -306,9 +306,11 @@ public class Sistema {
         String nome;
         System.out.print("Digite o nome: ");
         nome = scanner.next();
+        scanner.nextLine(); // Limpeza de buffer
         String email;
         System.out.print("Digite o email: ");
         email = scanner.next();
+        scanner.nextLine(); // Limpeza de buffer
         String telefone;
         while (true) {
             try {
@@ -321,19 +323,17 @@ public class Sistema {
             }
         }
         String senha, senhaDeConfirmacao;
-        System.out.print("Digite a senha: ");
-        senha = scanner.next();
-        System.out.print("Confirme a senha: ");
-        senhaDeConfirmacao = scanner.next();
-        if (!senha.equals(senhaDeConfirmacao)) {
-            do {
+        do {
+            System.out.print("Digite a senha: ");
+            senha = scanner.next();
+            scanner.nextLine(); // Limpeza de buffer
+            System.out.print("Confirme a senha: ");
+            senhaDeConfirmacao = scanner.next();
+            scanner.nextLine(); // Limpeza de buffer
+            if (!senha.equals(senhaDeConfirmacao)) {
                 System.out.println("As senhas não coincidem. Tente novamente.");
-                System.out.print("Digite a senha: ");
-                senha = scanner.next();
-                System.out.print("Confirme a senha: ");
-                senhaDeConfirmacao = scanner.next();
-            }while (!senha.equals(senhaDeConfirmacao));
-        }
+            }
+        }while (!senha.equals(senhaDeConfirmacao));
         System.out.println("================================================================");
         return new String[]{nome, email, senha, cpf, telefone};
     }

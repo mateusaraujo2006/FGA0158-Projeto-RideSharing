@@ -31,7 +31,6 @@ public class Passageiro extends Usuario {
             System.out.println("===============================");
             System.out.print("Escolha a sua opção de ação que desejar: ");
             resp = Sistema.lerOpcao();
-            input.nextLine();
 
             switch (resp) {
                 case 1:

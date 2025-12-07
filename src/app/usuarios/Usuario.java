@@ -110,14 +110,26 @@ public abstract class Usuario {
                     case 1:
                         System.out.print("Digite o novo nome: ");
                         usuarioLogado.setNome(scanner.next());
+                        scanner.nextLine(); // Limpeza de buffer
                         break;
                     case 2:
                         System.out.print("Digite o novo email: ");
                         usuarioLogado.setEmail(scanner.next());
+                        scanner.nextLine(); // Limpeza de buffer
                         break;
                     case 3:
-                        System.out.print("Digite a nova senha: ");
-                        usuarioLogado.setSenha(scanner.next());
+                        String senha, senhaDeConfirmacao;
+                        do {
+                            System.out.print("Digite a senha: ");
+                            senha = scanner.next();
+                            scanner.nextLine(); // Limpeza de buffer
+                            System.out.print("Confirme a senha: ");
+                            senhaDeConfirmacao = scanner.next();
+                            scanner.nextLine(); // Limpeza de buffer
+                            if (!senha.equals(senhaDeConfirmacao)) {
+                                System.out.println("As senhas não coincidem. Tente novamente.");
+                            }
+                        }while (!senha.equals(senhaDeConfirmacao));
                         break;
                     case 4:
                         String novoTelefone;
@@ -125,6 +137,7 @@ public abstract class Usuario {
                             try {
                                 System.out.print("Digite o novo telefone: ");
                                 novoTelefone = scanner.next();
+                                scanner.nextLine(); // Limpeza de buffer
                                 Sistema.validadorDeTelefone(novoTelefone);
                                 usuarioLogado.setTelefone(novoTelefone);
                                 break;
