@@ -8,16 +8,13 @@ public class CadastroCartao {
     private String nomeTitular;
     private YearMonth dataValidade;
     private String codigoSeguranca;
-    private double saldo;
-    private double limite;
+
 
     public CadastroCartao(String numeroCartao, String nomeTitular, String dataValidade, String codigoSeguranca) {
         this.numeroCartao = numeroCartao;
         this.nomeTitular = nomeTitular;
         this.dataValidade = YearMonth.parse(dataValidade, DateTimeFormatter.ofPattern("MM/yyyy"));
         this.codigoSeguranca = codigoSeguranca;
-        this.saldo = saldo;
-        this.limite = limite;
 
     }
 
@@ -37,11 +34,5 @@ public class CadastroCartao {
         return codigoSeguranca;
     }
 
-    public double getSaldo() {
-        return saldo;
-    }
 
-    public double getLimite() {
-        return limite;
-    }
 }

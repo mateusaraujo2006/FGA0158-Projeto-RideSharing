@@ -3,6 +3,7 @@ package app.usuarios;
 import app.dominio.Sistema;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import static app.dominio.Sistema.getUsuarios;
@@ -25,8 +26,13 @@ public abstract class Usuario {
 
     public void receberAvaliacao(){
         int nota;
-        System.out.print("Quantas estrelas você dá para " + nome + "(1 a 5): ");
-        nota = scanner.nextInt();
+        System.out.print("Quantas estrelas você dá para " + nome + "(0 a 5): ");
+        do {
+            nota = Sistema.lerOpcao();
+            if (nota < 0 || nota > 5) {
+                System.out.println("Nota inválida. Tente novamente.");
+            }
+        }while (nota < 0 || nota > 5);
         avaliacoes.add(new Avaliacao(nota));
     }
 
@@ -114,8 +120,18 @@ public abstract class Usuario {
                         usuarioLogado.setSenha(scanner.next());
                         break;
                     case 4:
-                        System.out.print("Digite o novo telefone: ");
-                        usuarioLogado.setTelefone(scanner.next());
+                        String novoTelefone;
+                        while (true) {
+                            try {
+                                System.out.print("Digite o novo telefone: ");
+                                novoTelefone = scanner.next();
+                                Sistema.validadorDeTelefone(novoTelefone);
+                                usuarioLogado.setTelefone(novoTelefone);
+                                break;
+                            } catch (InputMismatchException e) {
+                                System.out.println(e.getMessage() + " Tente novamente.");
+                            }
+                        }
                         break;
 
                     default:
@@ -159,6 +175,7 @@ public abstract class Usuario {
     }
 
     public void setTelefone(String telefone) {
+        Sistema.validadorDeTelefone(telefone);
         this.telefone = telefone;
     }
 }

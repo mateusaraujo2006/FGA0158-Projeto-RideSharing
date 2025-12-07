@@ -5,6 +5,7 @@ import app.dominio.CategoriaLuxo;
 import app.dominio.Sistema;
 import app.veiculo.*;
 
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Motorista extends Usuario {
@@ -40,32 +41,32 @@ public class Motorista extends Usuario {
 
     @Override
     public void login() {
-        char resp;
+        int resp;
         do {
             System.out.println("===============================");
-            System.out.println("A. Procura corrida");
-            System.out.println("B. Mudar dados pessoais");
-            System.out.println("C. Mudar o veiculo/atualizar a cnh");
-            System.out.println("D. Logout");
+            System.out.println("1. Procura corrida");
+            System.out.println("2. Mudar dados pessoais");
+            System.out.println("3. Mudar o veiculo/atualizar a cnh");
+            System.out.println("4. Logout");
             System.out.println("===============================");
             System.out.print("Escolha a sua opção de ação que desejar: ");
-            resp = input.nextLine().toUpperCase().charAt(0);
+            resp = Sistema.lerOpcao();
 
             switch (resp) {
-                case 'A':
+                case 1:
 
                     break;
-                case 'B':
+                case 2:
                     System.out.println("Por segurança, digite seus dados de login:");
                     verificadorDeSeguranca();
                     mudarDados();
                     break;
-                case 'C':
+                case 3:
                     System.out.println("Por segurança, digite seus dados de login:");
                     verificadorDeSeguranca();
                     atualizarValidadeCnhOuAlterarVeiculo();
                     break;
-                case 'D':
+                case 4:
                     System.out.println("Deslogando do Sistema...");
                     Sistema.main(null);
                     break;
@@ -75,12 +76,12 @@ public class Motorista extends Usuario {
 
             }
 
-        } while (resp != 'D');
+        } while (resp != 4);
 
         input.close();
     }
     private void atualizarValidadeCnhOuAlterarVeiculo() {
-        char resp;
+        int resp;
         do {
             System.out.println("==============================");
             System.out.println("\n--- Gerenciamento de Veículo e CNH ---");
@@ -88,21 +89,21 @@ public class Motorista extends Usuario {
             System.out.println("2. Atualizar Validade da CNH");
             System.out.println("3. Voltar ao Menu Principal");
             System.out.print("Escolha a opção: ");
-            resp = input.nextLine().toUpperCase().charAt(0);
+            resp = Sistema.lerOpcao();
             switch (resp) {
-                case '1':
+                case 1:
                     mudarVeiculo();
                     break;
-               case '2':
+               case 2:
                    atualizarValidadeCnh();
                    break;
-              case '3':
+              case 3:
                   System.out.println("Voltando...");
                   break;
               default:
                   System.out.println("Opção inválida. Tente novamente.");
             }
-        }while (resp != '3');
+        }while (resp != 3);
     }
     private void mudarVeiculo() {
         System.out.println("\n--- Cadastro do Novo Veículo ---");
@@ -116,28 +117,28 @@ public class Motorista extends Usuario {
         System.out.print("Digite a cor do Veículo: ");
         String novaCor = input.nextLine();
         System.out.print("digite o ano do veículo: ");
-        int novoAno = input.nextInt();
+        int novoAno = Sistema.lerOpcao();
         input.nextLine();
-        char escolha;
+        int escolha;
         Categoria novaCategoria = null;
         do {
             System.out.println("Digite a categoria do veículo (Comum ou luxo): ");
             System.out.println("1. Comum");
             System.out.println("2. Luxo");
             System.out.print("Escolha uma opção: ");
-            escolha = input.next().charAt(0);
+            escolha = Sistema.lerOpcao();
             switch (escolha) {
-                case '1':
+                case 1:
                     novaCategoria = new CategoriaComum();
                     break;
-                case '2':
+                case 2:
                     novaCategoria = new CategoriaLuxo();
                     break;
                 default:
                     System.out.println("Opção inválida.");
             }
 
-        } while (escolha != '1' && escolha != '2');
+        } while (escolha != 1 && escolha != 2);
         input.nextLine();
 
         veiculo = new Veiculo(novoModelo, novaPlaca, novaCor, novoAno, novaCategoria);
@@ -146,11 +147,16 @@ public class Motorista extends Usuario {
     }
     private void atualizarValidadeCnh() {
         System.out.println("\n--- Atualizar Validade da CNH ---");
-
-        System.out.print("Digite a nova data de validade da CNH (formato DD/MM/AAAA): ");
-        String novaValidade = input.nextLine();
-
-
-        System.out.println("\nValidade da CNH atualizada para: " + novaValidade + ".");
+        while (true) {
+            try {
+                System.out.print("Digite a nova data de validade da CNH (formato MM/yyyy): ");
+                String novaValidade = input.nextLine();
+                cnh.setValidade(novaValidade);
+                System.out.println("\nValidade da CNH atualizada para: " + novaValidade + ".");
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("Formato de data inválido. Use o formato MM/yyyy.");
+            }
+        }
     }
 }

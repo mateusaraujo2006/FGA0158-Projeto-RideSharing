@@ -4,17 +4,17 @@ import app.excecoes.PagamentoRecusadoException;
 
 public class Credito implements FormaDePagamento {
     private CadastroCartao cartao;
-    private double Limite;
+    private double limite;
 
-    public Credito(CadastroCartao cartao) {
+    public Credito(CadastroCartao cartao, double limite) {
         this.cartao = cartao;
-        this.Limite = cartao.getLimite();
+        this.limite = limite;
     }
 
     @Override
     public void processarPagamento(double valorDebitado) {
-        if (valorDebitado <= Limite) {
-            Limite -= valorDebitado;
+        if (valorDebitado <= limite) {
+            limite -= valorDebitado;
             System.out.println("Pagamento realizado com sucesso");
         }
         else {

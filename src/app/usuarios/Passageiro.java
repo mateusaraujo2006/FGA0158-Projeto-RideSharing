@@ -19,46 +19,46 @@ public class Passageiro extends Usuario {
 
     @Override
     public void login() {
-        char resp;
+        int resp;
         do {
             System.out.println("===============================");
-            System.out.println("A. Solicitar corrida");
-            System.out.println("B. Mudar dados pessoais");
-            System.out.println("C. Mudar forma de pagamento");
-            System.out.println("D. Informações da conta");
-            System.out.println("E. Logout");
-            if (divida > 0) System.out.println("F. Pagar dívida - R$" + divida);
+            System.out.println("1. Solicitar corrida");
+            System.out.println("2. Mudar dados pessoais");
+            System.out.println("3. Mudar forma de pagamento");
+            System.out.println("4. Informações da conta");
+            System.out.println("5. Logout");
+            if (divida > 0) System.out.println("6. Pagar dívida - R$" + divida);
             System.out.println("===============================");
             System.out.print("Escolha a sua opção de ação que desejar: ");
-            resp = input.next().toUpperCase().charAt(0);
+            resp = Sistema.lerOpcao();
             input.nextLine();
 
             switch (resp) {
-                case 'A':
+                case 1:
                     if (divida == 0) {
                         solicitarCorrida();
                     } else {
                         System.out.println("Pagamento da corrida anterior pendente! Não é possível realizar uma nova corrida.");
                     }
                     break;
-                case 'B':
+                case 2:
                     System.out.println("Por segurança, digite seus dados de login:");
                     verificadorDeSeguranca();
                     mudarDados();
                     break;
-                case 'C':
+                case 3:
                     mudarFormaDePagamento(this);
                     break;
-                case 'D':
+                case 4:
                     System.out.println("Por segurança, digite seus dados de login:");
                     verificadorDeSeguranca();
                     System.out.println(this);
                     break;
-                case 'E':
+                case 5:
                     System.out.println("Deslogando do Sistema...");
                     Sistema.main(null);
                     break;
-                case 'F':
+                case 6:
                     if (divida > 0) {
                         realizarPagamento(divida);
                         break;
@@ -67,12 +67,12 @@ public class Passageiro extends Usuario {
                     System.out.println("Opção inválida. Tente novamente.");
             }
 
-        } while (resp != 'E');
+        } while (resp != 5);
         input.close(); // limpeza de buffer
     }
 
     public static void mudarFormaDePagamento(Passageiro p) {
-        char resp;
+        int resp;
         do {
             System.out.println("==============================");
             System.out.println("1. Credito");
@@ -81,32 +81,34 @@ public class Passageiro extends Usuario {
             System.out.println("4. Debito");
             System.out.println("===============================");
             System.out.print  ("Escolha a forma de pagamento que irá usar: ");
-            resp = input.next().charAt(0);
+            resp = Sistema.lerOpcao();
             switch (resp) {
-                case '1':
-                    p.setPagamento(new Credito(Sistema.cadastrarCartao()));
+                case 1:
+                    CadastroCartao cartaoCredito = Sistema.cadastrarCartao();
+                    System.out.print("Digite o limite do Cartão: ");
+                    double limite = Sistema.lerPontoFlutuante();
+                    p.setPagamento(new Credito(cartaoCredito, limite));
                     break;
-                case '2':
+                case 2:
                     System.out.print("Digite o dinheiro disponível: ");
-                    double dinheiro = input.nextDouble();
+                    double dinheiro = Sistema.lerPontoFlutuante();
                     p.setPagamento(new Dinheiro(dinheiro));
                     break;
-                case '3':
+                case 3:
                     System.out.print("Digite o valor na conta: ");
-                    double valorNaConta = input.nextDouble();
+                    double valorNaConta = Sistema.lerPontoFlutuante();
                     p.setPagamento(new Pix(valorNaConta));
                     break;
-                case '4':
+                case 4:
                     System.out.println("Digite o seu saldo inicial: ");
-                    double saldoInicial = input.nextDouble();
+                    double saldoInicial = Sistema.lerPontoFlutuante();
                     p.setPagamento(new Debito(Sistema.cadastrarCartao(), saldoInicial));
                     break;
                 default:
                     System.out.println("Opção invalída. Tente novamente.");
                 }
-            } while (resp != '1' && resp != '2' && resp != '3' && resp != '4');
+            } while (resp != 1 && resp != 2 && resp != 3 && resp != 4);
     }
-
     public void solicitarCorrida() {
         System.out.print("Informe o seu ponto de origem: ");
         String origem = input.nextLine();
@@ -120,7 +122,7 @@ public class Passageiro extends Usuario {
             System.out.println("1. Comum");
             System.out.println("2. Luxo");
             System.out.print  ("Escolha: ");
-            opc = input.nextInt();
+            opc = Sistema.lerOpcao();
             switch (opc) {
                 case 1 -> categoria = new CategoriaComum();
                 case 2 -> categoria = new CategoriaLuxo();

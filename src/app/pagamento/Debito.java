@@ -1,21 +1,20 @@
 package app.pagamento;
 
 import app.excecoes.PagamentoRecusadoException;
-import app.excecoes.SaldoInsuficienteException;
 
 public class Debito implements FormaDePagamento {
     private CadastroCartao cartao;
-    private double ValorEmConta;
+    private double valorEmConta;
 
-    public Debito(CadastroCartao cartao, double saldoInicial) {
+    public Debito(CadastroCartao cartao, double saldo) {
         this.cartao = cartao;
-        this.ValorEmConta = cartao.getSaldo();
+        this.valorEmConta = saldo;
     }
 
     @Override
     public void processarPagamento(double valorDebitado) {
-        if (valorDebitado <= ValorEmConta) {
-            ValorEmConta -= valorDebitado;
+        if (valorDebitado <= valorEmConta) {
+            valorEmConta -= valorDebitado;
             System.out.println("Pagamento realizado com sucesso!");
         }
         else {

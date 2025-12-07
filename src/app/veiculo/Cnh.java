@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Cnh {
     private final String id;
-    private final YearMonth validade;
+    private YearMonth validade;
     private final LocalDateTime dataDeHoje = LocalDateTime.now();
     
     public Cnh(String id, String validade) {
@@ -26,7 +26,9 @@ public class Cnh {
         return this.id.length() == 9;
 
     }
-
+    public void setValidade(String data) {
+        this.validade = YearMonth.parse(data, DateTimeFormatter.ofPattern("MM/yyyy"));
+    }
 }
 
 
