@@ -30,7 +30,7 @@ public class Corrida {
     
 
     private void calcularDistancia() {
-        this.distancia = Math.round((1 + (Math.random() * 999) * 100) / 100.0);
+        this.distancia = Math.round((1 + (Math.random() * 999) * 100) / 100.0); // Valor entre 1 e 1000
     }
 
     public void iniciar(Motorista motorista) {
