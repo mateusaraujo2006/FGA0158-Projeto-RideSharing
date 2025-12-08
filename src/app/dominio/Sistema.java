@@ -18,7 +18,7 @@ public class Sistema {
             try {
                 return scanner.nextInt();
             } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida. Por favor, digite um número inteiro e que esteja dentro das opções.");
+                System.out.println("Entrada inválida. Por favor, digite um número inteiro");
                 scanner.next(); // Limpa o buffer do scanner
             }
         }
