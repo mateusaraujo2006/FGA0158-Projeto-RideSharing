@@ -374,7 +374,6 @@ public class Sistema {
         corridas.add(corrida);
         corrida.imprimir();
         int opcao;
-        boolean confirmacao = false;
         List<Motorista> motoristasDisponiveis;
         try {
             motoristasDisponiveis = procurarMotoristas(corrida.getCATEGORIA());
@@ -382,7 +381,7 @@ public class Sistema {
             System.out.println(e.getMessage());
             return;
         }
-        Motorista motorista = adquirirMotorista(corrida,passageiro, motoristasDisponiveis, confirmacao);
+        Motorista motorista = adquirirMotorista(corrida,passageiro, motoristasDisponiveis);
         if (motorista == null) return;
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         corrida.iniciar(motorista);
@@ -416,9 +415,10 @@ public class Sistema {
        }
     }
 
-    private static Motorista adquirirMotorista(Corrida corrida, Passageiro passageiro, List<Motorista> motoristasDisponiveis, boolean confirmacao) {
+    private static Motorista adquirirMotorista(Corrida corrida, Passageiro passageiro, List<Motorista> motoristasDisponiveis) {
         int opcao;
         Motorista motorista = null;
+        boolean confirmacao = false;
         for (Motorista i : motoristasDisponiveis) {
             System.out.println("================================================================");
             System.out.println("Encontramos o motorista: " + i.getNome());
