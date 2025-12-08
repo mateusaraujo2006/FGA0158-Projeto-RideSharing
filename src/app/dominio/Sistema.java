@@ -346,11 +346,11 @@ public class Sistema {
         String dataDeValidade;
         while (true) {
             try {
-                System.out.print("Digite a data de validade (MM/yyyy): ");
+                System.out.print("Digite a data de validade (MM/AAAA): ");
                 dataDeValidade = scanner.next();
                 break;
             } catch (DateTimeParseException e) {
-                System.out.println("Formato de data inválido. Use o formato MM/yyyy.");
+                System.out.println("Formato de data inválido. Use o formato MM/AAAA.");
             }
         }
         System.out.print("Digite o código de segurança: ");
