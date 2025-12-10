@@ -22,7 +22,7 @@ public class Corrida {
     public void imprimir() {
         System.out.println("------ Dados da Corrida ------");
         System.out.println("Origem: " + ORIGEM);
-        System.out.println("Destino: " + DESTINO);'
+        System.out.println("Destino: " + DESTINO);
         System.out.println("Distância: " + distancia + " km");
         System.out.println("Categoria: " + CATEGORIA.getNome());
         System.out.println("Preço: " + calcularPreco());

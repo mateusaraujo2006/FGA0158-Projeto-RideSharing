@@ -343,19 +343,18 @@ public class Sistema {
         String numeroCartao = scanner.next();
         System.out.print("Digite o nome do Titular: ");
         String nomeTitular = scanner.next();
+        System.out.print("Digite o código de segurança: ");
+        String codigoSeguranca = scanner.next();
         String dataDeValidade;
         while (true) {
             try {
                 System.out.print("Digite a data de validade (MM/AAAA): ");
                 dataDeValidade = scanner.next();
-                break;
+                return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
             } catch (DateTimeParseException e) {
                 System.out.println("Formato de data inválido. Use o formato MM/AAAA.");
             }
         }
-        System.out.print("Digite o código de segurança: ");
-        String codigoSeguranca = scanner.next();
-        return new CadastroCartao(numeroCartao, nomeTitular, dataDeValidade, codigoSeguranca);
     }
     private static List<Motorista> procurarMotoristas(String categoria) {
         List<Motorista> motoristasOnline;
